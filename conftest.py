@@ -4,9 +4,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from qa_guru_diploma_project.utils import attach
 from dotenv import load_dotenv
-# from qa_guru_diploma_project.utils.application import Application
-from qa_guru_diploma_project.model.pages.web.user_login_page import UserLoginPage
-from qa_guru_diploma_project.model.pages.web.application_page import SettingsAppPage
+from qa_guru_diploma_project.utils.application import Application
+# from qa_guru_diploma_project.model.pages.web.user_login_page import UserLoginPage
+# from qa_guru_diploma_project.model.pages.web.application_page import SettingsAppPage
 
 
 # @pytest.fixture(scope='session', autouse=True)
@@ -60,14 +60,12 @@ def browser():
 @pytest.fixture()
 def auth_admin(browser):
 
-    login_page = UserLoginPage(browser)
-    application_page = SettingsAppPage(browser)
-
+    app = Application(browser)
     # выделить в фикстуру авторизация admin
-    login_page.open_user_login_page()
-    login_page.filling_login('admin')
-    login_page.filling_password('admin')
-    login_page.click_login_btn()
+    app.login_page.open_user_login_page()
+    app.login_page.filling_login('admin')
+    app.login_page.filling_password('admin')
+    app.login_page.click_login_btn()
 
     return browser
 
