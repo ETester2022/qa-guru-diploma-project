@@ -51,27 +51,6 @@ import requests
 #     driver.quit()
 
 
-@pytest.fixture()
-def get_access_token_admin():
-    creds = {
-        "username": "admin",
-        "password": "admin"
-    }
-    response = requests.post('https://stage.mesone.kz/api/v1/user/login', json=creds)
-    access_token = response.json()["accessToken"]
-    return access_token
-
-
-@pytest.fixture()
-def get_access_token_not_admin():
-    creds = {
-        "username": "user0",
-        "password": "user0"
-    }
-    response = requests.post('https://stage.mesone.kz/api/v1/user/login', json=creds)
-    access_token = response.json()["accessToken"]
-    return access_token
-
 
 @pytest.fixture()
 def delete_tool_crud_auto(get_access_token_admin):
