@@ -9,6 +9,8 @@ from qa_guru_diploma_project.utils.application import Application
 
 @pytest.mark.test_front
 @pytest.mark.test_settings_app
+@allure.epic("43483, Админские настройки")
+@allure.feature("43531, Приложение")
 class TestSettingsApp:
 
     # Свитч Изображение + Загрузка картинки
@@ -19,7 +21,6 @@ class TestSettingsApp:
     @allure.title("тест на загрузку картинки с валидными параметрами")
     @allure.severity(Severity.NORMAL)
     def test_upload_picture(self, auth_admin):
-
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -40,7 +41,6 @@ class TestSettingsApp:
     @allure.title("тест на удаление картинки")
     @allure.severity(Severity.NORMAL)
     def test_delete_picture(self, auth_admin):
-
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -60,7 +60,6 @@ class TestSettingsApp:
     @allure.title("тест на ввод Основного текста для лого в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_input_main_text_logo(self, auth_admin):
-
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -83,7 +82,6 @@ class TestSettingsApp:
     @allure.title("тест на выбор Темы в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_select_style_dark(self, auth_admin):
-
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -101,7 +99,6 @@ class TestSettingsApp:
     @allure.title("тест на выбор Темы в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_select_theme_app(self, auth_admin):
-
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -119,7 +116,6 @@ class TestSettingsApp:
     @allure.title("тест на включение футера в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_activation_footer(self, auth_admin):
-
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -128,4 +124,3 @@ class TestSettingsApp:
 
         status_footer = app.application_page.get_status_footer()
         assert status_footer is True
-

@@ -8,13 +8,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from qa_guru_diploma_project.utils.path_utils import get_picture_path
 from selenium.common.exceptions import NoSuchElementException
-# from qa_guru_diploma_project.utils.application import Application
-from qa_guru_diploma_project.model.pages.web.user_login_page import UserLoginPage
 import time
 
 
 class SettingsAppPage:
-
 
     def __init__(self, driver):
         self.driver = driver
@@ -23,7 +20,6 @@ class SettingsAppPage:
     def open_settings_app(self):
         self.driver.get("https://stage.mesone.kz/settings/application")
         self.driver.implicitly_wait(10)
-        #self.driver.execute_script("document.body.style.zoom = '60%'")
 
     @allure.step("Загрузка Picture")
     def upload_picture(self, filename):
@@ -52,7 +48,8 @@ class SettingsAppPage:
 
     @allure.step("Клик switch Текст")
     def click_switch_text(self):
-        switch_text = self.driver.find_element(By.XPATH, '//*[contains(@role, "tablist")]/../../..//*[@role="switch"]')
+        switch_text = self.driver.find_element(By.XPATH, '//*[contains(@role, "tablist")]'
+                                                         '/../../..//*[@role="switch"]')
         switch_text.click()
 
     @allure.step("Клик switch Футер")
@@ -88,7 +85,7 @@ class SettingsAppPage:
         btn_dark = WebDriverWait(browser, 10).until(
             EC.visibility_of_element_located(
                 locator=(By.XPATH, '//*[contains(@class, "ant-radio-group-outline")]'
-                                                      '//*[@value="dark"]/../..')
+                                   '//*[@value="dark"]/../..')
             )
         )
         btn_dark.click()
@@ -102,7 +99,7 @@ class SettingsAppPage:
     @allure.step("Получение иконки поля загрузки лого")
     def get_attribute_picture(self):
         input_picture = self.driver.find_element(By.XPATH,
-                                                      '//*[@class="ant-upload ant-upload-select"]//span[@role="img"]')
+                                                 '//*[@class="ant-upload ant-upload-select"]//span[@role="img"]')
         return input_picture.get_attribute("aria-label")
 
     @allure.step("Получение статуса switch Изображение")
@@ -134,7 +131,8 @@ class SettingsAppPage:
 
     @allure.step("Получение текущей темы приложения")
     def get_current_theme_app(self):
-        style_app = self.driver.find_element(By.XPATH, '//*[contains(@class, "ant-radio-group-solid")]//input[@checked]')
+        style_app = self.driver.find_element(By.XPATH,
+                                             '//*[contains(@class, "ant-radio-group-solid")]//input[@checked]')
         return style_app.get_attribute("value")
 
     @allure.step("Поиск футера")
@@ -144,14 +142,3 @@ class SettingsAppPage:
             return True
         except NoSuchElementException:
             return False
-
-
-    # def auth_admin(browser):
-    #
-    #     login_page = UserLoginPage(browser)
-    #
-    #     login_page.open_user_login_page()
-    #     login_page.filling_login('admin')
-    #     login_page.filling_password('admin')
-    #     login_page.click_login_btn()
-    #     time.sleep(3)

@@ -5,13 +5,12 @@ from selenium.webdriver.chrome.options import Options
 from qa_guru_diploma_project.utils import attach
 from dotenv import load_dotenv
 from qa_guru_diploma_project.utils.application import Application
-# from qa_guru_diploma_project.model.pages.web.user_login_page import UserLoginPage
-# from qa_guru_diploma_project.model.pages.web.application_page import SettingsAppPage
+import requests
 
 
-# @pytest.fixture(scope='session', autouse=True)
-# def load_env():
-#     load_dotenv()
+@pytest.fixture(scope='session', autouse=True)
+def load_env():
+    load_dotenv()
 #
 #
 # @pytest.fixture(scope='function')
@@ -47,6 +46,7 @@ from qa_guru_diploma_project.utils.application import Application
 #     attach.add_video(driver)
 #     driver.quit()
 
+
 @pytest.fixture()
 def browser():
     """Фикстура для создания драйвера браузера."""
@@ -57,23 +57,51 @@ def browser():
     yield driver
     driver.quit()
 
+
 @pytest.fixture()
 def auth_admin(browser):
-
     app = Application(browser)
-    # выделить в фикстуру авторизация admin
+
     app.login_page.open_user_login_page()
-    app.login_page.filling_login('admin')
-    app.login_page.filling_password('admin')
+    app.login_page.filling_login(app.login_page.login_admin)
+    app.login_page.filling_password(app.login_page.password_admin)
     app.login_page.click_login_btn()
 
     return browser
 
+@pytest.fixture()
+def auth_user(browser):
+    app = Application(browser)
 
-# @pytest.fixture()
-# def auth_admin(browser):
-#     app = Application(browser)
-#     app.open_user_login_page()
-#     app.filling_login('admin')
-#     app.filling_password('admin')
-#     app.click_login_btn()
+    app.login_page.open_user_login_page()
+    app.login_page.filling_login(app.login_page.login_user)
+    app.login_page.filling_password(app.login_page.password_user)
+    app.login_page.click_login_btn()
+
+    return browser
+
+@pytest.fixture()
+def get_access_token_admin():
+    login_admin = os.getenv('LOGIN_ADMIN')
+    password_admin = os.getenv('PASSWORD_ADMIN')
+    base_url_api = os.getenv('BASE_URL_API')
+    creds = {
+        "username": login_admin,
+        "password": password_admin
+    }
+    response = requests.post(base_url_api + '/user/login', json=creds)
+    access_token = response.json()["accessToken"]
+    return access_token
+
+@pytest.fixture()
+def get_access_token_not_admin():
+    login_user = os.getenv('LOGIN_USER')
+    password_user = os.getenv('PASSWORD_USER')
+    base_url_api = os.getenv('BASE_URL_API')
+    creds = {
+        "username": login_user,
+        "password": password_user
+    }
+    response = requests.post(base_url_api + '/user/login', json=creds)
+    access_token = response.json()["accessToken"]
+    return access_token

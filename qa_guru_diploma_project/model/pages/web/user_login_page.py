@@ -1,27 +1,21 @@
 import os
-
 import allure
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from qa_guru_diploma_project.utils.path_utils import get_picture_path
-
 
 
 class UserLoginPage:
 
-
     def __init__(self, driver):
         self.driver = driver
+        self.login_admin = os.getenv('LOGIN_ADMIN')
+        self.password_admin = os.getenv('PASSWORD_ADMIN')
+        self.login_user = os.getenv('LOGIN_USER')
+        self.password_user = os.getenv('PASSWORD_USER')
 
     @allure.step("Переход страницу авторизации")
     def open_user_login_page(self):
-        """Открытие страницы авторизации"""
-        self.driver.get("https://stage.mesone.kz/user/login") #
+        self.driver.get("https://stage.mesone.kz/user/login")
         self.driver.implicitly_wait(10)
-        #self.driver.execute_script("document.body.style.zoom = '60%'")
 
     @allure.step("Ввод логина")
     def filling_login(self, username):
@@ -38,8 +32,8 @@ class UserLoginPage:
         login_btn = self.driver.find_element(By.CLASS_NAME, 'anticon-login')
         login_btn.click()
 
-        # WebDriverWait(self.driver, 5).until(
-        #     EC.presence_of_element_located(
-        #         locator=(By.CLASS_NAME, 'ant-pro-global-header')
-        #     )
-        # )
+    @allure.step("Получение текста из allert")
+    def get_text_allert(self):
+        self.driver.find_element(By.CLASS_NAME, 'ant-notification-notice-message').click()
+        text_error = self.driver.find_element(By.CLASS_NAME, 'ant-notification-notice-message').text
+        return text_error
