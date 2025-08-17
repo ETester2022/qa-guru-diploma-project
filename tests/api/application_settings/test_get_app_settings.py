@@ -7,7 +7,7 @@ from jsonschema import validate
 from tests.api.application_settings import schemas
 
 
-@pytest.mark.tests_api
+@pytest.mark.test_api
 @pytest.mark.tests_app_settings
 @allure.epic("43483, Админские настройки")
 @allure.feature("43531, Приложение")

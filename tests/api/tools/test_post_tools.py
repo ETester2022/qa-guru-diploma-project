@@ -6,7 +6,7 @@ from jsonschema import validate
 from tests.api.tools import schemas
 from allure_commons.types import Severity
 
-@pytest.mark.tests_api
+@pytest.mark.test_api
 @pytest.mark.test_post_tools_all
 @allure.epic("43590, CRUD")
 @allure.feature("43719, Создание инструмента CRUD")

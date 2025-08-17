@@ -20,7 +20,7 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на загрузку картинки с валидными параметрами")
     @allure.severity(Severity.NORMAL)
-    def test_upload_picture(self, auth_admin):
+    def test_upload_picture(self, default_upload_picture, auth_admin):
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -40,7 +40,7 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на удаление картинки")
     @allure.severity(Severity.NORMAL)
-    def test_delete_picture(self, auth_admin):
+    def test_delete_picture(self, add_picture, auth_admin):
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -59,7 +59,7 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на ввод Основного текста для лого в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_input_main_text_logo(self, auth_admin):
+    def test_input_main_text_logo(self, default_main_text_en, auth_admin):
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -79,9 +79,9 @@ class TestSettingsApp:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на выбор Темы в разделе Приложение/Общие")
+    @allure.title("тест на выбор Стиль Темная в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_select_style_dark(self, auth_admin):
+    def test_select_style_dark(self, style_light, auth_admin):
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -98,7 +98,7 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на выбор Темы в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_select_theme_app(self, auth_admin):
+    def test_select_theme_app(self, theme_default, auth_admin):
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()
@@ -115,7 +115,7 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на включение футера в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_activation_footer(self, auth_admin):
+    def test_activation_footer(self, disabling_footer, auth_admin):
         app = Application(auth_admin)
 
         app.application_page.open_settings_app()

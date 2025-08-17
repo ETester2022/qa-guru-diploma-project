@@ -15,7 +15,7 @@ class UserLoginPage:
     @allure.step("Переход страницу авторизации")
     def open_user_login_page(self):
         self.driver.get("https://stage.mesone.kz/user/login")
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(15)
 
     @allure.step("Ввод логина")
     def filling_login(self, username):

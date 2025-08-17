@@ -5,7 +5,7 @@ import allure
 from allure_commons.types import Severity
 
 
-@pytest.mark.tests_api
+@pytest.mark.test_api
 @pytest.mark.test_del_tools_name_all
 @allure.epic("43590, CRUD")
 @allure.feature("43721, Удаление инструмента CRUD")

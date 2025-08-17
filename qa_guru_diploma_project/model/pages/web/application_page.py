@@ -19,7 +19,7 @@ class SettingsAppPage:
     @allure.step("Переход страницу настроек приложения")
     def open_settings_app(self):
         self.driver.get("https://stage.mesone.kz/settings/application")
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(15)
 
     @allure.step("Загрузка Picture")
     def upload_picture(self, filename):

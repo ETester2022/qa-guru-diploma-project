@@ -8,16 +8,42 @@ schema_get_app_settings = {
         "id": {
           "type": "string"
         },
+        "instanceLabel": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": ["string", "null"]
+            },
+            "ru": {
+              "type": ["string", "null"]
+            },
+            "en": {
+              "type": ["string", "null"]
+            },
+            "kk": {
+              "type": ["string", "null"]
+            },
+            "de": {
+              "type": ["string", "null"]
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
         "instanceLabelEnabled": {
           "type": "boolean"
         },
         "logoImage": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "logoEnabled": {
           "type": "boolean"
         },
         "logoMesoneEnabled": {
+          "type": "boolean"
+        },
+        "footer": {
           "type": "boolean"
         },
         "colorScheme": {
@@ -26,69 +52,34 @@ schema_get_app_settings = {
         "style": {
           "type": "string"
         },
+        "selectedLocalesEnabled": {
+          "type": "boolean"
+        },
         "selectedLocales": {
           "type": "array",
           "items": [
             {
               "type": "string"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "string"
             }
           ]
-        },
-        "selectedLocalesEnabled": {
-          "type": "boolean"
         },
         "defaultLocale": {
           "type": "string"
-        },
-        "footer": {
-          "type": "boolean"
-        },
-        "instanceLabel": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "ru": {
-              "type": "string"
-            },
-            "en": {
-              "type": "string"
-            },
-            "kk": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "ru",
-            "en",
-            "kk"
-          ]
         }
       },
       "required": [
         "id",
+        "instanceLabel",
         "instanceLabelEnabled",
         "logoImage",
         "logoEnabled",
         "logoMesoneEnabled",
+        "footer",
         "colorScheme",
         "style",
-        "selectedLocales",
         "selectedLocalesEnabled",
-        "defaultLocale",
-        "footer",
-        "instanceLabel"
+        "selectedLocales",
+        "defaultLocale"
       ]
     },
     "timeFunctions": {
@@ -148,6 +139,9 @@ schema_get_app_settings = {
             "id": {
               "type": "string"
             },
+            "defaultValue": {
+              "type": ["string", "null"]
+            },
             "enabled": {
               "type": "boolean"
             },
@@ -156,17 +150,13 @@ schema_get_app_settings = {
             },
             "useGlobalValue": {
               "type": "boolean"
-            },
-            "defaultValue": {
-              "type": "null"
             }
           },
           "required": [
             "id",
             "enabled",
             "visible",
-            "useGlobalValue",
-            "defaultValue"
+            "useGlobalValue"
           ]
         }
       },
