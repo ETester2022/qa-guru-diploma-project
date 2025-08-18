@@ -4,7 +4,7 @@ from allure_commons.types import Severity
 from qa_guru_diploma_project.utils.application import Application
 
 
-# # pytest -m test_upload_picture -vv --clean-alluredir --alluredir=allure_results
+# # pytest -m test_front -vv --clean-alluredir --alluredir=allure_results
 # # allure serve allure_results
 
 @pytest.mark.test_front
