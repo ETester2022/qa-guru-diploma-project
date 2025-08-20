@@ -1,7 +1,9 @@
 import os
 import pytest
 import requests
+import logging
 import allure
+from allure_commons.types import AttachmentType
 from allure_commons.types import Severity
 from tests.api.application_settings import data_app_settings_api
 from jsonschema import validate
@@ -9,7 +11,7 @@ from tests.api.application_settings import schemas
 
 
 # pytest -m test_patch_app_settings_all -vv
-@pytest.mark.tests_api
+@pytest.mark.test_api
 @pytest.mark.test_patch_app_settings_all
 @allure.epic("43483, Админские настройки")
 @allure.feature("43531, Приложение")
@@ -39,6 +41,14 @@ class TestPatchAppSettings:
             response = requests.patch(base_url_api + '/application/settings',
                                       headers={"Authorization": f"Bearer {get_access_token_admin}"},
                                       json=request_body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 200
         with allure.step('Проверка наличия переданных настроек в body ответа'):
@@ -74,6 +84,14 @@ class TestPatchAppSettings:
             response = requests.patch(base_url_api + '/application/settings',
                                       headers={"Authorization": f"Bearer {get_access_token_admin}"},
                                       json=request_body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 200
         with allure.step('Проверка наличия переданных настроек в body ответа'):
@@ -103,6 +121,14 @@ class TestPatchAppSettings:
             response = requests.patch(base_url_api + '/application/settings',
                                       headers={"Authorization": f"Bearer {get_access_token_admin}"},
                                       json=request_body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 400
         with allure.step('Сравнение id ошибки'):
@@ -133,6 +159,14 @@ class TestPatchAppSettings:
             response = requests.patch(base_url_api + '/application/settings',
                                       headers={"Authorization": f"Bearer {invalid_token}"},
                                       json=request_body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 401
         with allure.step('Сравнение id ошибки'):

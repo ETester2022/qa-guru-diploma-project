@@ -1,7 +1,9 @@
 import os
+import logging
 import requests
 import pytest
 import allure
+from allure_commons.types import AttachmentType
 from allure_commons.types import Severity
 from jsonschema import validate
 from tests.api.application_settings import schemas
@@ -20,10 +22,19 @@ class TestGetAppSettings:
     @allure.title("тест на получение настроек раздел Общие")
     @allure.severity(Severity.CRITICAL)
     def test_get_app_settings_admin(self, get_access_token_admin):
+
         with allure.step('Запрос настроек приложения'):
             base_url_api = os.getenv('BASE_URL_API')
             response = requests.get(base_url_api + '/application/settings',
                                     headers={"Authorization": f"Bearer {get_access_token_admin}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Соответствие статус-кода 200'):
             assert response.status_code == 200
         with allure.step('Валидация json'):
@@ -45,6 +56,14 @@ class TestGetAppSettings:
             response = requests.get(base_url_api + '/application/settings',
                                     headers={"Authorization": f"Bearer {get_access_token_admin}"},
                                     json=body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Соответствие статус-кода 200'):
             assert response.status_code == 200
         with allure.step('Валидация json'):
@@ -61,6 +80,14 @@ class TestGetAppSettings:
             base_url_api = os.getenv('BASE_URL_API')
             response = requests.get(base_url_api + '/application/settings',
                                     headers={"Authorization": f"Bearer {get_access_token_not_admin}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 403
         with allure.step('Сравнение id ошибки'):
@@ -84,6 +111,13 @@ class TestGetAppSettings:
             base_url_api = os.getenv('BASE_URL_API')
             response = requests.get(base_url_api + '/application/settings',
                                     headers={"Authorization": f"Bearer {invalid_token}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 401

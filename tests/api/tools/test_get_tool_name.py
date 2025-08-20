@@ -2,9 +2,11 @@ import os
 import pytest
 import requests
 import allure
+import logging
+from allure_commons.types import Severity
+from allure_commons.types import AttachmentType
 from jsonschema import validate
 from tests.api.tools import schemas
-from allure_commons.types import Severity
 
 
 @pytest.mark.test_api
@@ -24,6 +26,14 @@ class TestGetToolsName:
         with allure.step('Выполнение валидного запроса /tools/{name}'):
             response = requests.get(base_url_api + f'/tools/{name}',
                                     headers={"Authorization": f"Bearer {get_access_token_admin}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 200
         with allure.step('Проверка наличия "toolSettings"'):
@@ -41,6 +51,14 @@ class TestGetToolsName:
         with allure.step('Выполнение валидного запроса /tools/{name}'):
             response = requests.get(base_url_api + f'/tools/not_exist',
                                     headers={"Authorization": f'Bearer {get_access_token_admin}'})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 404
         with allure.step('Сравнение id ошибки'):
@@ -60,6 +78,14 @@ class TestGetToolsName:
         with allure.step('Выполнение валидного запроса /tools/{name}'):
             response = requests.get(base_url_api + f'/tools/{name}',
                                     headers={"Authorization": f"Bearer {get_access_token_not_admin}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 403
         with allure.step('Сравнение id ошибки'):
@@ -84,6 +110,14 @@ class TestGetToolsName:
         with allure.step('Выполнение валидного запроса /tools/{name}'):
             response = requests.get(base_url_api + f'/tools/{name}',
                                     headers={"Authorization": f"Bearer {invalid_token}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 401
         with allure.step('Сравнение id ошибки'):

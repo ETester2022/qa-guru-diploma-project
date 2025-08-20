@@ -1,10 +1,13 @@
 import os
 import pytest
 import requests
+import logging
 import allure
 from jsonschema import validate
 from tests.api.tools import schemas
 from allure_commons.types import Severity
+from allure_commons.types import AttachmentType
+
 
 @pytest.mark.test_api
 @pytest.mark.test_post_tools_all
@@ -29,6 +32,14 @@ class TestPostTools:
             response = requests.post(base_url_api + '/tools',
                                      headers={"Authorization": f"Bearer {get_access_token_admin}"},
                                      json=request_body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 201
         with allure.step('Сравнение соответствие названия инструмента в body'):
@@ -53,6 +64,14 @@ class TestPostTools:
             response = requests.post(base_url_api + '/tools',
                                      headers={"Authorization": f"Bearer {get_access_token_not_admin}"},
                                      json=request_body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 403
         with allure.step('Сравнение id ошибки'):
@@ -76,6 +95,14 @@ class TestPostTools:
             response = requests.post(base_url_api + '/tools',
                                      headers={"Authorization": f"Bearer {get_access_token_admin}"},
                                      json=request_body)
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 409
         with allure.step('Сравнение id ошибки'):

@@ -1,8 +1,10 @@
 import os
 import pytest
 import requests
+import logging
 import allure
 from allure_commons.types import Severity
+from allure_commons.types import AttachmentType
 
 
 @pytest.mark.test_api
@@ -23,6 +25,14 @@ class TestDeleteToolName:
         with allure.step('Запрос удаления инструмента'):
             response = requests.delete(base_url_api + f'/tools/{name}',
                                        headers={"Authorization": f"Bearer {get_access_token_admin}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 204
 
@@ -38,6 +48,14 @@ class TestDeleteToolName:
         with allure.step('Запрос удаления инструмента'):
             response = requests.delete(base_url_api + f'/tools/{name}',
                                        headers={"Authorization": f"Bearer {get_access_token_not_admin}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 403
         with allure.step('Сравнение id ошибки'):
@@ -55,6 +73,14 @@ class TestDeleteToolName:
         with allure.step('Запрос удаления пользователя'):
             response = requests.delete(base_url_api + '/tools/not_exist',
                                        headers={"Authorization": f"Bearer {get_access_token_admin}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
+
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 404
         with allure.step('Сравнение id ошибки'):
@@ -78,6 +104,13 @@ class TestDeleteToolName:
             base_url_api = os.getenv('BASE_URL_API')
             response = requests.get(base_url_api + '/application/settings',
                                     headers={"Authorization": f"Bearer {invalid_token}"})
+            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+
+            logging.info(response.request.url)
+            logging.info(response.request.headers)
+
+            logging.info(response.status_code)
+            logging.info(response.text)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 401
