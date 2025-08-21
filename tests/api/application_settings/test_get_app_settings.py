@@ -1,12 +1,30 @@
 import os
 import logging
 import requests
+from requests import Response
 import pytest
+import json
 import allure
 from allure_commons.types import AttachmentType
 from allure_commons.types import Severity
 from jsonschema import validate
 from tests.api.application_settings import schemas
+
+
+def reqres_api_get(url, **kwargs):
+    args = kwargs
+    base_url_api = os.getenv('BASE_URL_API')
+    result = requests.get(base_url_api + url, headers=args["headers"])
+    allure.attach(body=json.dumps(result.json(), indent=4, ensure_ascii=True), name="Response",
+                  attachment_type=AttachmentType.JSON, extension="json")
+
+    logging.info(result.request.url)
+    logging.info(result.request.headers)
+
+    logging.info(result.status_code)
+    logging.info(result.text)
+
+    return result
 
 
 @pytest.mark.test_api
@@ -22,23 +40,16 @@ class TestGetAppSettings:
     @allure.title("тест на получение настроек раздел Общие")
     @allure.severity(Severity.CRITICAL)
     def test_get_app_settings_admin(self, get_access_token_admin):
+        url = '/settings/application'
+        token = {"Authorization": f"Bearer {get_access_token_admin}"}
 
         with allure.step('Запрос настроек приложения'):
-            base_url_api = os.getenv('BASE_URL_API')
-            response = requests.get(base_url_api + '/application/settings',
-                                    headers={"Authorization": f"Bearer {get_access_token_admin}"})
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
-
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+            result: Response = reqres_api_get(url, headers=token)
 
         with allure.step('Соответствие статус-кода 200'):
-            assert response.status_code == 200
+            assert result.status_code == 200
         with allure.step('Валидация json'):
-            validate(response.json(), schema=schemas.schema_get_app_settings)
+            validate(result.json(), schema=schemas.schema_get_app_settings)
 
     @pytest.mark.test_app_settings_extra_value
     @allure.tag("api")
@@ -56,7 +67,8 @@ class TestGetAppSettings:
             response = requests.get(base_url_api + '/application/settings',
                                     headers={"Authorization": f"Bearer {get_access_token_admin}"},
                                     json=body)
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+            allure.attach(body=json.dumps(response.json(), indent=4, ensure_ascii=True), name="Response",
+                          attachment_type=AttachmentType.JSON, extension="json")
 
             logging.info(response.request.url)
             logging.info(response.request.headers)
