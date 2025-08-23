@@ -29,7 +29,7 @@
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-pytest -m test_api  
+pytest -m test_web  
 ```
 
 ### С помощью [Jenkins](https://jenkins.autotests.cloud/job/020-shipitsyn-diploma/)
