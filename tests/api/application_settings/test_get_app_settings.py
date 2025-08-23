@@ -27,6 +27,7 @@ def reqres_api_get(url, **kwargs):
     return result
 
 
+@pytest.mark.test_all
 @pytest.mark.test_api
 @pytest.mark.tests_app_settings
 @allure.epic("43483, Админские настройки")

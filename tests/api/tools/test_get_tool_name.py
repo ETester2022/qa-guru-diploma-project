@@ -9,6 +9,7 @@ from jsonschema import validate
 from tests.api.tools import schemas
 
 
+@pytest.mark.test_all
 @pytest.mark.test_api
 @pytest.mark.test_get_tools_name_all
 @allure.epic("43590, CRUD")

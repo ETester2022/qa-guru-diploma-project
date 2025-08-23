@@ -9,6 +9,7 @@ from allure_commons.types import Severity
 from allure_commons.types import AttachmentType
 
 
+@pytest.mark.test_all
 @pytest.mark.test_api
 @pytest.mark.test_post_tools_all
 @allure.epic("43590, CRUD")
