@@ -7,7 +7,7 @@ from qa_guru_diploma_project.utils.application import Application
 # # pytest -m test_front -vv --clean-alluredir --alluredir=allure_results
 # # allure serve allure_results
 
-@pytest.mark.test_front
+@pytest.mark.test_web
 @pytest.mark.test_settings_app
 @allure.epic("43483, Админские настройки")
 @allure.feature("43531, Приложение")

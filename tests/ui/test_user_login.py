@@ -8,7 +8,7 @@ from qa_guru_diploma_project.utils.application import Application
 # # allure serve allure_results
 
 
-@pytest.mark.test_front
+@pytest.mark.test_web
 @pytest.mark.test_settings_app
 @allure.epic("43554, Системные функции")
 @allure.feature("43555, Авторизация")
