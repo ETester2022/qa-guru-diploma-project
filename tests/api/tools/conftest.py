@@ -1,6 +1,7 @@
 import pytest
 import requests
 
+
 @pytest.fixture()
 def delete_tool_crud_auto(get_access_token_admin):
     yield

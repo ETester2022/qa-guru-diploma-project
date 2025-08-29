@@ -1,12 +1,9 @@
-import os
 import pytest
-import requests
-import logging
 import allure
 from jsonschema import validate
 from tests.api.tools import schemas
 from allure_commons.types import Severity
-from allure_commons.types import AttachmentType
+from qa_guru_diploma_project.utils.utils import reqres_post
 
 
 @pytest.mark.test_all
@@ -23,23 +20,16 @@ class TestPostTools:
     @allure.title("тест на создание инструмента CRUD")
     @allure.severity(Severity.BLOCKER)
     def test_post_tools_admin_crud(self, get_access_token_admin, delete_tool_crud_auto):
-        base_url_api = os.getenv('BASE_URL_API')
+        url = '/tools'
         name = "crud_auto"
+        token = {"Authorization": f"Bearer {get_access_token_admin}"}
         request_body = {
             "name": f"{name}",
             "type": "crud"
         }
-        with allure.step('Запрос создания пользователя'):
-            response = requests.post(base_url_api + '/tools',
-                                     headers={"Authorization": f"Bearer {get_access_token_admin}"},
-                                     json=request_body)
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
 
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+        with allure.step('POST-запрос'):
+            response = reqres_post(url, headers=token, json=request_body)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 201
@@ -55,23 +45,16 @@ class TestPostTools:
     @allure.title("тест на отстутствие прав на создание инструмента CRUD  для user не admin")
     @allure.severity(Severity.CRITICAL)
     def test_post_tools_not_admin(self, get_access_token_not_admin):
-        base_url_api = os.getenv('BASE_URL_API')
+        url = '/tools'
         name = "crud_auto"
+        token = {"Authorization": f"Bearer {get_access_token_not_admin}"}
         request_body = {
             "name": f"{name}",
             "type": "crud"
         }
-        with allure.step('Запрос создания инструмента'):
-            response = requests.post(base_url_api + '/tools',
-                                     headers={"Authorization": f"Bearer {get_access_token_not_admin}"},
-                                     json=request_body)
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
 
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+        with allure.step('POST-запрос'):
+            response = reqres_post(url, headers=token, json=request_body)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 403
@@ -87,22 +70,15 @@ class TestPostTools:
     @allure.title("тест на уникальность имени при создании инструмента CRUD")
     @allure.severity(Severity.CRITICAL)
     def test_post_tools_existing_tool_admin(self, get_access_token_admin):
-        base_url_api = os.getenv('BASE_URL_API')
+        url = '/tools'
+        token = {"Authorization": f"Bearer {get_access_token_admin}"}
         request_body = {
             "name": "existing_tool",
             "type": "crud"
         }
-        with allure.step('Запрос создания пользователя'):
-            response = requests.post(base_url_api + '/tools',
-                                     headers={"Authorization": f"Bearer {get_access_token_admin}"},
-                                     json=request_body)
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
 
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+        with allure.step('POST-запрос'):
+            response = reqres_post(url, headers=token, json=request_body)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 409
@@ -110,3 +86,33 @@ class TestPostTools:
             assert response.json()["id"] == 31009
         with allure.step('Сравнение текста ошибки с backend'):
             assert response.json()["code"] == 'err.tool_name_conflict_error'
+
+    @pytest.mark.test_post_tools_invalid_token
+    @allure.tag("api")
+    @allure.link("https://stage.mesone.kz/tools")
+    @allure.label('owner', 'tster: Evgeniy')
+    @allure.title("тест на отсутствие доступа к созданию инструмента не валидный токен")
+    @allure.severity(Severity.CRITICAL)
+    @pytest.mark.parametrize("invalid_token", [
+        'text',
+        123,
+        ''
+    ])
+    def test_post_tools_invalid_token(self, invalid_token):
+        url = '/tools'
+        name = "crud_auto"
+        token = {"Authorization": f"Bearer {invalid_token}"}
+        request_body = {
+            "name": f"{name}",
+            "type": "crud"
+        }
+
+        with allure.step('POST-запрос'):
+            response = reqres_post(url, headers=token, json=request_body)
+
+        with allure.step('Сравнение статус кода'):
+            assert response.status_code == 401
+        with allure.step('Сравнение id ошибки'):
+            assert response.json()["id"] == 32000
+        with allure.step('Сравнение текста ошибки с backend'):
+            assert response.json()["code"] == 'err.invalid_token'

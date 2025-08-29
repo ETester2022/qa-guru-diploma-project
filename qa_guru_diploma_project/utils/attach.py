@@ -15,11 +15,6 @@ def add_logs(browser):
         log_text = f"Логи недоступны: {e}"
     allure.attach(log_text, 'browser_logs', AttachmentType.TEXT)
 
-# def add_logs(browser):
-# """Этот код для selene"""
-#     log = "".join(f'{text}\n' for text in browser.get_log(log_type='browser'))
-#     allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
-
 
 def add_html(browser):
     html = browser.page_source

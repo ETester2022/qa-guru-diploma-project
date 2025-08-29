@@ -47,17 +47,6 @@ def browser():
     driver.quit()
 
 
-# @pytest.fixture()
-# def browser():
-#     """Фикстура для создания драйвера браузера."""
-#
-#     chrome_options = Options()
-#     chrome_options.add_argument("--window-size=1920,1080")
-#     driver = webdriver.Chrome(options=chrome_options)
-#     yield driver
-#     driver.quit()
-
-
 @pytest.fixture()
 def auth_admin(browser):
     app = Application(browser)
@@ -69,6 +58,7 @@ def auth_admin(browser):
 
     return browser
 
+
 @pytest.fixture()
 def auth_user(browser):
     app = Application(browser)
@@ -79,6 +69,7 @@ def auth_user(browser):
     app.login_page.click_login_btn()
 
     return browser
+
 
 @pytest.fixture()
 def get_access_token_admin():
@@ -92,6 +83,7 @@ def get_access_token_admin():
     response = requests.post(base_url_api + '/user/login', json=creds)
     access_token = response.json()["accessToken"]
     return access_token
+
 
 @pytest.fixture()
 def get_access_token_not_admin():

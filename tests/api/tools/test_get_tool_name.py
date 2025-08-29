@@ -1,12 +1,9 @@
-import os
 import pytest
-import requests
 import allure
-import logging
 from allure_commons.types import Severity
-from allure_commons.types import AttachmentType
 from jsonschema import validate
 from tests.api.tools import schemas
+from qa_guru_diploma_project.utils.utils import reqres_get
 
 
 @pytest.mark.test_all
@@ -22,18 +19,12 @@ class TestGetToolsName:
     @allure.title("тест на получение данных об инструменте")
     @allure.severity(Severity.CRITICAL)
     def test_get_tools_name_admin(self, get_access_token_admin):
-        base_url_api = os.getenv('BASE_URL_API')
         name = "get_tools_name_admin"
-        with allure.step('Выполнение валидного запроса /tools/{name}'):
-            response = requests.get(base_url_api + f'/tools/{name}',
-                                    headers={"Authorization": f"Bearer {get_access_token_admin}"})
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+        url = f'/tools/{name}'
+        token = {"Authorization": f"Bearer {get_access_token_admin}"}
 
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+        with allure.step('GET-запрос'):
+            response = reqres_get(url, headers=token)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 200
@@ -48,17 +39,12 @@ class TestGetToolsName:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на получение настроек не существующего инструмента авторизован admin")
     def test_get_tools_name_not_exist(self, get_access_token_admin):
-        base_url_api = os.getenv('BASE_URL_API')
-        with allure.step('Выполнение валидного запроса /tools/{name}'):
-            response = requests.get(base_url_api + f'/tools/not_exist',
-                                    headers={"Authorization": f'Bearer {get_access_token_admin}'})
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+        name = "not_exist"
+        url = f'/tools/{name}'
+        token = {"Authorization": f"Bearer {get_access_token_admin}"}
 
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+        with allure.step('GET-запрос'):
+            response = reqres_get(url, headers=token)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 404
@@ -74,18 +60,12 @@ class TestGetToolsName:
     @allure.title("тест на отсутствие доступа к настройкам инструмента user не admin")
     @allure.severity(Severity.CRITICAL)
     def test_get_tools_name_not_admin(self, get_access_token_not_admin):
-        base_url_api = os.getenv('BASE_URL_API')
         name = "get_tools_name_admin"
-        with allure.step('Выполнение валидного запроса /tools/{name}'):
-            response = requests.get(base_url_api + f'/tools/{name}',
-                                    headers={"Authorization": f"Bearer {get_access_token_not_admin}"})
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+        url = f'/tools/{name}'
+        token = {"Authorization": f"Bearer {get_access_token_not_admin}"}
 
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+        with allure.step('GET-запрос'):
+            response = reqres_get(url, headers=token)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 403
@@ -106,18 +86,12 @@ class TestGetToolsName:
         ''
     ])
     def test_get_tools_name_invalid_token(self, invalid_token):
-        base_url_api = os.getenv('BASE_URL_API')
         name = "get_tools_name_admin"
-        with allure.step('Выполнение валидного запроса /tools/{name}'):
-            response = requests.get(base_url_api + f'/tools/{name}',
-                                    headers={"Authorization": f"Bearer {invalid_token}"})
-            allure.attach(body=response.text, name="Response", attachment_type=AttachmentType.JSON)
+        url = f'/tools/{name}'
+        token = {"Authorization": f"Bearer {invalid_token}"}
 
-            logging.info(response.request.url)
-            logging.info(response.request.headers)
-
-            logging.info(response.status_code)
-            logging.info(response.text)
+        with allure.step('GET-запрос'):
+            response = reqres_get(url, headers=token)
 
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 401

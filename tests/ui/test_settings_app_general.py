@@ -4,9 +4,6 @@ from allure_commons.types import Severity
 from qa_guru_diploma_project.utils.application import Application
 
 
-# # pytest -m test_front -vv --clean-alluredir --alluredir=allure_results
-# # allure serve allure_results
-
 @pytest.mark.test_all
 @pytest.mark.test_web
 @pytest.mark.test_settings_app
@@ -14,7 +11,6 @@ from qa_guru_diploma_project.utils.application import Application
 @allure.feature("43531, Приложение")
 class TestSettingsApp:
 
-    # Свитч Изображение + Загрузка картинки
     @pytest.mark.test_upload_picture
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
@@ -34,7 +30,6 @@ class TestSettingsApp:
         assert icon_picture == "delete"
         assert status_switch_picture == "true"
 
-    # Свитч Изображение + Удаление картинки
     @pytest.mark.test_delete_picture
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
@@ -53,7 +48,6 @@ class TestSettingsApp:
         assert icon_picture == "plus"
         assert status_switch_picture == "true"
 
-    # Свитч Текст + Ввод текста на EN
     @pytest.mark.test_input_main_text_logo
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
@@ -75,7 +69,6 @@ class TestSettingsApp:
         assert tab_text == "EN"
         assert text_field_main == "MESone en-US"
 
-    # Выбор стиля
     @pytest.mark.test_select_style_dark
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
@@ -92,7 +85,6 @@ class TestSettingsApp:
         current_style_app = app.application_page.get_current_style_app()
         assert current_style_app == "dark"
 
-    # Выбор темы
     @pytest.mark.test_select_theme_app
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
@@ -109,7 +101,6 @@ class TestSettingsApp:
         current_theme_app = app.application_page.get_current_theme_app()
         assert current_theme_app == "cyan"
 
-    # Отображение футера
     @pytest.mark.test_activation_footer
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")

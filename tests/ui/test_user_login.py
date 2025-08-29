@@ -4,12 +4,9 @@ from allure_commons.types import Severity
 from qa_guru_diploma_project.utils.application import Application
 
 
-# # pytest -m test_upload_picture -vv --clean-alluredir --alluredir=allure_results
-# # allure serve allure_results
-
 @pytest.mark.test_all
 @pytest.mark.test_web
-@pytest.mark.test_settings_app
+@pytest.mark.test_user_login
 @allure.epic("43554, Системные функции")
 @allure.feature("43555, Авторизация")
 class TestUserLogin:

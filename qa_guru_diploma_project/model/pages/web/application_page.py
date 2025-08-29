@@ -1,12 +1,8 @@
-import os
-
 import allure
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from qa_guru_diploma_project.utils.path_utils import get_picture_path
+from qa_guru_diploma_project.utils.utils import get_picture_path
 from selenium.common.exceptions import NoSuchElementException
 import time
 
