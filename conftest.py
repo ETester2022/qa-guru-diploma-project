@@ -6,6 +6,7 @@ from qa_guru_diploma_project.utils import attach
 from dotenv import load_dotenv
 from qa_guru_diploma_project.utils.application import Application
 import requests
+from qa_guru_diploma_project.utils.utils import reqres_post
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -97,3 +98,30 @@ def get_access_token_not_admin():
     response = requests.post(base_url_api + '/user/login', json=creds)
     access_token = response.json()["accessToken"]
     return access_token
+
+
+@pytest.fixture()
+def refresh_token_admin():
+    url = '/user/login'
+    login_admin = os.getenv('LOGIN_ADMIN')
+    password_admin = os.getenv('PASSWORD_ADMIN')
+    request_body = {
+        "username": f"{login_admin}",
+        "password": f"{password_admin}"
+    }
+
+    response = reqres_post(url, json=request_body)
+    cookie = response.cookies.get("refreshToken")
+
+    return cookie
+
+
+@pytest.fixture()
+def driver():
+    """Фикстура для создания драйвера браузера."""
+
+    chrome_options = Options()
+    chrome_options.add_argument("--window-size=1920,1080")
+    driver = webdriver.Chrome(options=chrome_options)
+    yield driver
+    driver.quit()

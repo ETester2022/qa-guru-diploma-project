@@ -1,11 +1,5 @@
 import os
 import pytest
-from allure_commons import fixture
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from qa_guru_diploma_project.utils import attach
-from dotenv import load_dotenv
-from qa_guru_diploma_project.utils.application import Application
 import requests
 from tests.api.application_settings import data_app_settings_api
 

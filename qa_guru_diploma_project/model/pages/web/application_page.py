@@ -17,6 +17,13 @@ class SettingsAppPage:
         self.driver.get("https://stage.mesone.kz/settings/application")
         self.driver.implicitly_wait(15)
 
+    @allure.step("Прямой переход на страницу настроек приложения")
+    def open_settings_app_admin(self, browser, refresh_token_admin):
+
+        self.open_settings_app()
+        browser.add_cookie({"name": "refreshToken", "value": refresh_token_admin})
+        self.open_settings_app()
+
     @allure.step("Загрузка Picture")
     def upload_picture(self, filename):
         file_path = get_picture_path(filename)

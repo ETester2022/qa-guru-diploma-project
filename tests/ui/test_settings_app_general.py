@@ -17,11 +17,11 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на загрузку картинки с валидными параметрами")
     @allure.severity(Severity.NORMAL)
-    def test_upload_picture(self, default_upload_picture, auth_admin):
-        app = Application(auth_admin)
+    def test_upload_picture(self, browser, refresh_token_admin, default_upload_picture):
+        app = Application(browser)
 
-        app.application_page.open_settings_app()
-        app.application_page.click_switch_picture(auth_admin)
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
+        app.application_page.click_switch_picture(browser)
         app.application_page.upload_picture("64.png")
         app.application_page.click_save_btn()
 
@@ -36,10 +36,10 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на удаление картинки")
     @allure.severity(Severity.NORMAL)
-    def test_delete_picture(self, add_picture, auth_admin):
-        app = Application(auth_admin)
+    def test_delete_picture(self, browser, refresh_token_admin, add_picture):
+        app = Application(browser)
 
-        app.application_page.open_settings_app()
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
         app.application_page.delete_picture()
         app.application_page.click_save_btn()
 
@@ -54,10 +54,10 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на ввод Основного текста для лого в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_input_main_text_logo(self, default_main_text_en, auth_admin):
-        app = Application(auth_admin)
+    def test_input_main_text_logo(self, browser, refresh_token_admin, default_main_text_en):
+        app = Application(browser)
 
-        app.application_page.open_settings_app()
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
         app.application_page.click_switch_text()
         app.application_page.click_tab_en()
         app.application_page.input_text_field_main_en("MESone en-US")
@@ -75,11 +75,11 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на выбор Стиль Темная в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_select_style_dark(self, style_light, auth_admin):
-        app = Application(auth_admin)
+    def test_select_style_dark(self, browser, refresh_token_admin, style_light):
+        app = Application(browser)
 
-        app.application_page.open_settings_app()
-        app.application_page.click_btn_dark(auth_admin)
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
+        app.application_page.click_btn_dark(browser)
         app.application_page.click_save_btn()
 
         current_style_app = app.application_page.get_current_style_app()
@@ -91,10 +91,10 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на выбор Темы в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_select_theme_app(self, theme_default, auth_admin):
-        app = Application(auth_admin)
+    def test_select_theme_app(self, browser, refresh_token_admin, theme_default):
+        app = Application(browser)
 
-        app.application_page.open_settings_app()
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
         app.application_page.click_btn_theme("C")
         app.application_page.click_save_btn()
 
@@ -107,10 +107,10 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("тест на включение футера в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_activation_footer(self, disabling_footer, auth_admin):
-        app = Application(auth_admin)
+    def test_activation_footer(self, browser, refresh_token_admin, disabling_footer):
+        app = Application(browser)
 
-        app.application_page.open_settings_app()
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
         app.application_page.click_switch_footer()
         app.application_page.click_save_btn()
 
