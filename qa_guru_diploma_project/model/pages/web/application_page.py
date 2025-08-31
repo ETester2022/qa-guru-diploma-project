@@ -12,7 +12,6 @@ class SettingsAppPage:
     def __init__(self, driver):
         self.driver = driver
 
-    @allure.step("Переход страницу настроек приложения")
     def open_settings_app(self):
         self.driver.get("https://stage.mesone.kz/settings/application")
         self.driver.implicitly_wait(15)
