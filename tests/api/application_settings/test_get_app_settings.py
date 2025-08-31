@@ -17,7 +17,7 @@ class TestGetAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/application/settings")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на получение настроек раздел Общие")
+    @allure.title("Получение настроек раздел Общие")
     @allure.severity(Severity.CRITICAL)
     def test_get_app_settings_admin(self, get_access_token_admin):
         url = '/application/settings'
@@ -35,7 +35,7 @@ class TestGetAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/application/settings")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на получение настроек раздел Общие с лишними данными в body")
+    @allure.title("Получение настроек раздел Общие с лишними данными в body")
     @allure.severity(Severity.CRITICAL)
     def test_get_app_settings_extra_value(self, get_access_token_admin):
         url = '/application/settings'
@@ -56,7 +56,7 @@ class TestGetAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/application/settings")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа к настройкам раздел Общие user не admin")
+    @allure.title("Отсутствие доступа к настройкам раздел Общие user не admin")
     @allure.severity(Severity.CRITICAL)
     def test_get_app_settings_not_admin(self, get_access_token_not_admin):
         url = '/application/settings'
@@ -76,7 +76,7 @@ class TestGetAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/application/settings")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа к настройкам раздел Общие не валидный токен")
+    @allure.title("Отсутствие доступа к настройкам раздел Общие не валидный токен")
     @allure.severity(Severity.CRITICAL)
     @pytest.mark.parametrize("invalid_token", [
         'text',

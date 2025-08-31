@@ -15,7 +15,7 @@ class TestDeleteToolName:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools/name")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на удаление инструмента CRUD")
+    @allure.title("Удаление инструмента CRUD")
     @allure.severity(Severity.CRITICAL)
     def test_delete_tools_admin(self, get_access_token_admin, create_crud_auto):
         url = f'/tools/{create_crud_auto}'
@@ -31,7 +31,7 @@ class TestDeleteToolName:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools/name")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие возможности удаления инструмента user не admin")
+    @allure.title("Отсутствие возможности удаления инструмента user не admin")
     @allure.severity(Severity.CRITICAL)
     def test_delete_tools_not_admin(self, get_access_token_not_admin):
         name = "test_delete_tools_not_admin"
@@ -52,7 +52,7 @@ class TestDeleteToolName:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools/name")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на удаление не существующего инструмента авторизован admin")
+    @allure.title("Удаление не существующего инструмента авторизован admin")
     def test_delete_tools_not_exist_admin(self, get_access_token_admin):
         name = 'not_exist'
         url = f'/tools/{name}'
@@ -72,7 +72,7 @@ class TestDeleteToolName:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools/name")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа к удалению инструмента не валидный токен")
+    @allure.title("Отсутствие доступа к удалению инструмента не валидный токен")
     @allure.severity(Severity.CRITICAL)
     @pytest.mark.parametrize("invalid_token", [
         'text',

@@ -18,7 +18,7 @@ class TestPatchAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на добавление картинки с валидным форматом раздел Общие")
+    @allure.title("Добавление картинки с валидным форматом раздел Общие")
     @allure.severity(Severity.NORMAL)
     @pytest.mark.parametrize("logo_image", [
         data_app_settings_api.logo_jpeg,
@@ -48,7 +48,7 @@ class TestPatchAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на запись валидных цветов темы раздел Общие")
+    @allure.title("Запись валидных цветов темы раздел Общие")
     @allure.severity(Severity.NORMAL)
     @pytest.mark.parametrize("color_scheme", [
         'default',
@@ -82,7 +82,7 @@ class TestPatchAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие возможности записать картинки не валидного формата")
+    @allure.title("Отсутствие возможности записать картинки не валидного формата")
     @allure.severity(Severity.NORMAL)
     @pytest.mark.parametrize("invalid_logo", [
         data_app_settings_api.logo_webp,
@@ -110,7 +110,7 @@ class TestPatchAppSettings:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа к настройкам раздел Общие не валидный токен")
+    @allure.title("Отсутствие доступа к настройкам раздел Общие не валидный токен")
     @allure.severity(Severity.CRITICAL)
     @pytest.mark.parametrize("invalid_token", [
         'text',

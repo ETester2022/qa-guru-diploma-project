@@ -16,7 +16,7 @@ class TestGetToolsName:
     @pytest.mark.test_get_tools_name_admin
     @allure.tag("api")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на получение данных об инструменте")
+    @allure.title("Получение данных об инструменте")
     @allure.severity(Severity.CRITICAL)
     def test_get_tools_name_admin(self, get_access_token_admin):
         name = "get_tools_name_admin"
@@ -37,7 +37,7 @@ class TestGetToolsName:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools/name")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на получение настроек не существующего инструмента авторизован admin")
+    @allure.title("Получение настроек не существующего инструмента авторизован admin")
     def test_get_tools_name_not_exist(self, get_access_token_admin):
         name = "not_exist"
         url = f'/tools/{name}'
@@ -57,7 +57,7 @@ class TestGetToolsName:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа к настройкам инструмента user не admin")
+    @allure.title("Отсутствие доступа к настройкам инструмента user не admin")
     @allure.severity(Severity.CRITICAL)
     def test_get_tools_name_not_admin(self, get_access_token_not_admin):
         name = "get_tools_name_admin"
@@ -78,7 +78,7 @@ class TestGetToolsName:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа к настройкам раздел Общие не валидный токен")
+    @allure.title("Отсутствие доступа к настройкам раздел Общие не валидный токен")
     @allure.severity(Severity.CRITICAL)
     @pytest.mark.parametrize("invalid_token", [
         'text',

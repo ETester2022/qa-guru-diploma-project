@@ -8,6 +8,7 @@
   <code><img src="images/logo/pycharm.png" width="40" height="40"  alt="A-d-am" title="PyCharm"></code>
   <code><img src="images/logo/Jenkins.svg" width="40" height="40"  alt="A-d-am" title="Jenkins"></code>
   <code><img src="images/logo/Allure_new.png" width="40" height="40"  alt="A-d-am" title="Allure Report"></code>
+  <code><img src="images/logo/Allure_TestOps.svg" width="40" height="40"  alt="A-d-am" title="Allure TestOps"></code>
   <code><img src="images/logo/Telegram.svg" width="40" height="40"  alt="A-d-am" title="Telegram Bot"></code>
 </p>
 
@@ -54,6 +55,9 @@ allure serve allure-results
 Для получения отчета нужно нажать на иконку allure report'a в строке билда  
 У него будет точно такой же формат, как и при получении локально
 <img src="images/screenshots/allure_report_from_jenkins.png">
+
+### В проекте реализована интеграция с Allure TestsOps
+<img src="images/screenshots/allure_test_ops.png">
 
 ### В проекте настроена отправка краткого отчета в Telegram
 <img src="images/screenshots/tg_api_allure.png">

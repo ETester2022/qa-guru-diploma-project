@@ -17,7 +17,7 @@ class TestPostTools:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на создание инструмента CRUD")
+    @allure.title("Создание инструмента CRUD")
     @allure.severity(Severity.BLOCKER)
     def test_post_tools_admin_crud(self, get_access_token_admin, delete_tool_crud_auto):
         url = '/tools'
@@ -42,7 +42,7 @@ class TestPostTools:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отстутствие прав на создание инструмента CRUD  для user не admin")
+    @allure.title("Отстутствие прав на создание инструмента CRUD  для user не admin")
     @allure.severity(Severity.CRITICAL)
     def test_post_tools_not_admin(self, get_access_token_not_admin):
         url = '/tools'
@@ -67,7 +67,7 @@ class TestPostTools:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на уникальность имени при создании инструмента CRUD")
+    @allure.title("Уникальность имени при создании инструмента CRUD")
     @allure.severity(Severity.CRITICAL)
     def test_post_tools_existing_tool_admin(self, get_access_token_admin):
         url = '/tools'
@@ -91,7 +91,7 @@ class TestPostTools:
     @allure.tag("api")
     @allure.link("https://stage.mesone.kz/tools")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа к созданию инструмента не валидный токен")
+    @allure.title("Отсутствие доступа к созданию инструмента не валидный токен")
     @allure.severity(Severity.CRITICAL)
     @pytest.mark.parametrize("invalid_token", [
         'text',

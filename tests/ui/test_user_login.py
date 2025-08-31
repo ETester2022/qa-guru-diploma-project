@@ -15,7 +15,7 @@ class TestUserLogin:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/user/login")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на отсутствие доступа с не валидным паролем")
+    @allure.title("Отсутствие доступа с не валидным паролем")
     @allure.severity(Severity.CRITICAL)
     @pytest.mark.parametrize("login, password", [
         ('invalid_login', 'invalid_password'),

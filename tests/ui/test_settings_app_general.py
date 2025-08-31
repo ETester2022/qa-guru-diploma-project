@@ -15,7 +15,7 @@ class TestSettingsApp:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на загрузку картинки с валидными параметрами")
+    @allure.title("Загрузка картинки с валидными параметрами")
     @allure.severity(Severity.NORMAL)
     def test_upload_picture(self, browser, refresh_token_admin, default_upload_picture):
         app = Application(browser)
@@ -34,7 +34,7 @@ class TestSettingsApp:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на удаление картинки")
+    @allure.title("Удаление картинки")
     @allure.severity(Severity.NORMAL)
     def test_delete_picture(self, browser, refresh_token_admin, add_picture):
         app = Application(browser)
@@ -52,7 +52,7 @@ class TestSettingsApp:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на ввод Основного текста для лого в разделе Приложение/Общие")
+    @allure.title("Ввод Основного текста для лого в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_input_main_text_logo(self, browser, refresh_token_admin, default_main_text_en):
         app = Application(browser)
@@ -73,7 +73,7 @@ class TestSettingsApp:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на выбор Стиль Темная в разделе Приложение/Общие")
+    @allure.title("Выбор Стиль Темная в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_select_style_dark(self, browser, refresh_token_admin, style_light):
         app = Application(browser)
@@ -89,7 +89,7 @@ class TestSettingsApp:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на выбор Темы в разделе Приложение/Общие")
+    @allure.title("Выбор Темы в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_select_theme_app(self, browser, refresh_token_admin, theme_default):
         app = Application(browser)
@@ -105,7 +105,7 @@ class TestSettingsApp:
     @allure.tag("web")
     @allure.link("https://stage.mesone.kz/settings/application")
     @allure.label('owner', 'tster: Evgeniy')
-    @allure.title("тест на включение футера в разделе Приложение/Общие")
+    @allure.title("Включение футера в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
     def test_activation_footer(self, browser, refresh_token_admin, disabling_footer):
         app = Application(browser)
