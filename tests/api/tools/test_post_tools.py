@@ -34,7 +34,7 @@ class TestPostTools:
         with allure.step('Сравнение статус кода'):
             assert response.status_code == 201
         with allure.step('Сравнение соответствие названия инструмента в body'):
-            assert response.json()["name"] == f"{name}"
+            assert response.json()["name"] == name
         with allure.step('Валидация json'):
             validate(response.json(), schema=schemas.schema_post_tools)
 

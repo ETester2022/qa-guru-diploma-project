@@ -4,7 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from qa_guru_diploma_project.utils import attach
 from dotenv import load_dotenv
-from qa_guru_diploma_project.utils.application import Application
 import requests
 from qa_guru_diploma_project.utils.utils import reqres_post
 
@@ -46,30 +45,6 @@ def browser():
     attach.add_html(driver)
     attach.add_video(driver)
     driver.quit()
-
-
-@pytest.fixture()
-def auth_admin(browser):
-    app = Application(browser)
-
-    app.login_page.open_user_login_page()
-    app.login_page.filling_login(app.login_page.login_admin)
-    app.login_page.filling_password(app.login_page.password_admin)
-    app.login_page.click_login_btn()
-
-    return browser
-
-
-@pytest.fixture()
-def auth_user(browser):
-    app = Application(browser)
-
-    app.login_page.open_user_login_page()
-    app.login_page.filling_login(app.login_page.login_user)
-    app.login_page.filling_password(app.login_page.password_user)
-    app.login_page.click_login_btn()
-
-    return browser
 
 
 @pytest.fixture()
@@ -118,8 +93,6 @@ def refresh_token_admin():
 
 @pytest.fixture()
 def driver():
-    """Фикстура для создания драйвера браузера."""
-
     chrome_options = Options()
     chrome_options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=chrome_options)
