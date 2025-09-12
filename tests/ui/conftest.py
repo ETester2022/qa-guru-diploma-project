@@ -1,7 +1,7 @@
 import os
 import pytest
 import requests
-from tests.api.application_settings import data_app_settings_api
+from tests.api.test_application_settings import data_app_settings_api
 
 
 @pytest.fixture()

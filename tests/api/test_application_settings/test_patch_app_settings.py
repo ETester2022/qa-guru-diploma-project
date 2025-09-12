@@ -1,9 +1,9 @@
 import pytest
 import allure
 from allure_commons.types import Severity
-from tests.api.application_settings import data_app_settings_api
+from tests.api.test_application_settings import data_app_settings_api
 from jsonschema import validate
-from tests.api.application_settings import schemas
+from tests.api.test_application_settings import schemas
 from qa_guru_diploma_project.utils.utils import reqres_patch
 
 

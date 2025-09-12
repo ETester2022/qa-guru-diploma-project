@@ -1,7 +1,7 @@
 import pytest
 import allure
 from jsonschema import validate
-from tests.api.tools import schemas
+from tests.api.test_tools import schemas
 from allure_commons.types import Severity
 from qa_guru_diploma_project.utils.utils import reqres_post
 
