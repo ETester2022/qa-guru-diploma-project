@@ -135,3 +135,50 @@ class TestSettingsApp:
 
         assert status_logo is True
         assert status_switch_logo == "true"
+
+    @pytest.mark.test_deactivation_logo
+    @allure.tag("web")
+    @allure.link("https://stage.mesone.kz/settings/application")
+    @allure.label('owner', 'tster: Evgeniy')
+    @allure.title("Выключение логотип в разделе Приложение/Общие")
+    @allure.severity(Severity.NORMAL)
+    def test_deactivation_logo(self, browser, refresh_token_admin, enabling_logo):
+        app = Application(browser)
+
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
+        app.application_page.click_switch_logo(browser)
+        app.application_page.click_save_btn()
+
+        status_logo = app.application_page.get_status_logo()
+        status_switch_logo = app.application_page.get_status_switch_logo()
+
+        assert status_logo is False
+        assert status_switch_logo == "false"
+
+    @pytest.mark.test_select_lang_app
+    @allure.tag("web")
+    @allure.link("https://stage.mesone.kz/settings/application")
+    @allure.label('owner', 'tster: Evgeniy')
+    @allure.title("Включение и выбор языков в разделе Приложение/Общие")
+    @allure.severity(Severity.NORMAL)
+    def test_select_lang_app(self, browser, refresh_token_admin, default_localization):
+
+        default_lang = 'Английский'
+        app = Application(browser)
+
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
+        app.application_page.click_switch_lang()
+        app.application_page.select_lang('Английский', 'Казахский', 'Немецкий')
+        app.application_page.click_save_btn()
+        app.application_page.select_default_lang(default_lang)
+        app.application_page.click_save_btn()
+
+        status_switch_lang = app.application_page.get_status_switch_lang()
+        quantity_langs_in_lang = app.application_page.get_quantity_langs_in_lang()
+        quantity_langs_in_instance_editor = app.application_page.get_quantity_langs_in_instance_editor()
+        selected_default_lang = app.application_page.get_selected_default_lang()
+
+        assert status_switch_lang == "true"
+        assert quantity_langs_in_lang == 4
+        assert quantity_langs_in_instance_editor == 4
+        assert selected_default_lang == default_lang

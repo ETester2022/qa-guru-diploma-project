@@ -108,6 +108,7 @@ def disabling_footer(get_access_token_admin):
                               json=request_body)
     return response
 
+
 @pytest.fixture()
 def disabling_logo(get_access_token_admin):
     """Фикстура отключает Лого"""
@@ -115,6 +116,42 @@ def disabling_logo(get_access_token_admin):
     request_body = {
         "commonSettings": {
             "logoMesoneEnabled": False
+        }
+    }
+
+    base_url_api = os.getenv('BASE_URL_API')
+    response = requests.patch(base_url_api + '/application/settings',
+                              headers={"Authorization": f"Bearer {get_access_token_admin}"},
+                              json=request_body)
+    return response
+
+
+@pytest.fixture()
+def enabling_logo(get_access_token_admin):
+    """Фикстура включает Лого"""
+
+    request_body = {
+        "commonSettings": {
+            "logoMesoneEnabled": True
+        }
+    }
+
+    base_url_api = os.getenv('BASE_URL_API')
+    response = requests.patch(base_url_api + '/application/settings',
+                              headers={"Authorization": f"Bearer {get_access_token_admin}"},
+                              json=request_body)
+    return response
+
+
+@pytest.fixture()
+def default_localization(get_access_token_admin):
+    """Фикстура устанавливает состояние default для выбора языков приложения"""
+
+    request_body = {
+        "commonSettings": {
+            "selectedLocales": ["ru-RU"],
+            "selectedLocalesEnabled": False,
+            "defaultLocale": "ru-RU"
         }
     }
 

@@ -69,6 +69,33 @@ class SettingsAppPage:
                                                            '//*[@class="ant-space-item"][3]//*[@role="switch"]')
         switch_footer.click()
 
+    @allure.step("Клик switch Язык")
+    def click_switch_lang(self):
+        switch_lang = self.driver.find_element(By.XPATH, '//*[contains(@class, "ant-flex")]'
+                                                         '/div[2]//*[@role="switch"]')
+        switch_lang.click()
+
+    @allure.step("Выбор языка из списка")
+    def select_lang(self, l1, l2, l3):
+
+        select_list = self.driver.find_element(By.XPATH, '//*[@class="ant-select-selection-overflow"]')
+        select_list.click()
+        lang1 = self.driver.find_element(By.XPATH, f'//*[@title="{l1}"]')
+        lang1.click()
+        lang2 = self.driver.find_element(By.XPATH, f'//*[@title="{l2}"]')
+        lang2.click()
+        lang3 = self.driver.find_element(By.XPATH, f'//*[@title="{l3}"]')
+        lang3.click()
+
+    @allure.step("Выбор языка по умолчанию")
+    def select_default_lang(self, lang):
+
+        select_list = self.driver.find_element(By.XPATH, '(//div[contains(@class, "ant-select-selector")])[2]')
+        select_list.click()
+
+        lang1 = self.driver.find_element(By.XPATH, f'//div[@class="rc-virtual-list"]//*[@title="{lang}"]')
+        lang1.click()
+
     @allure.step("Клик таб EN")
     def click_tab_en(self):
         tab_en = self.driver.find_element(By.XPATH, '//*[@data-node-key="en-US"]/div')
@@ -76,14 +103,14 @@ class SettingsAppPage:
 
     @allure.step("Ввод текста в поле Основной EN")
     def input_text_field_main_en(self, text):
-        field_main = self.driver.find_element(By.XPATH, '//*[contains(@id, "panel-en-US")]'
-                                                        '//*[text()="Основной"]/..//input')
+        field_main = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
+                                                        '//*[@class="ant-space-item"])[1]//input')
         field_main.send_keys(text)
 
     @allure.step("Ввод текста в поле Дополнительный EN")
     def input_text_field_additional_en(self, text):
-        field_additional = self.driver.find_element(By.XPATH, '//*[contains(@id, "panel-en-US")]'
-                                                              '//*[text()="Дополнительный"]/..//input')
+        field_additional = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
+                                                        '//*[@class="ant-space-item"])[2]//input')
         field_additional.send_keys(text)
 
     @allure.step("Клик таб RU")
@@ -123,6 +150,12 @@ class SettingsAppPage:
         switch_picture = self.driver.find_element(By.XPATH, '//*[@class="ant-space-item"][1]//*[@role="switch"]')
         return switch_picture.get_attribute("aria-checked")
 
+    @allure.step("Получение статуса switch Логотип")
+    def get_status_switch_lang(self):
+        switch_picture = self.driver.find_element(By.XPATH, '//*[contains(@class, "ant-flex")]'
+                                                            '/div[2]//*[@role="switch"]')
+        return switch_picture.get_attribute("aria-checked")
+
     @allure.step("Получение текста выбранного tab")
     def get_selected_text_tab(self):
         tab = self.driver.find_element(By.XPATH, '//*[@role="tab" and @aria-selected="true"]')
@@ -130,14 +163,14 @@ class SettingsAppPage:
 
     @allure.step("Получение текста поле Основной")
     def get_text_field_main_en(self):
-        field_main = self.driver.find_element(By.XPATH, '//*[contains(@id, "panel-en-US")]'
-                                                        '//*[text()="Основной"]/..//input')
+        field_main = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
+                                                        '//*[@class="ant-space-item"])[1]//input')
         return field_main.get_attribute("value")
 
     @allure.step("Получение текста поле Дополнительный")
     def get_text_field_additional_en(self):
-        field_additional = self.driver.find_element(By.XPATH, '//*[contains(@id, "panel-en-US")]'
-                                                              '//*[text()="Дополнительный"]/..//input')
+        field_additional = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
+                                                              '//*[@class="ant-space-item"])[2]//input')
         return field_additional.get_attribute("value")
 
     @allure.step("Получение текущего стиля приложения")
@@ -166,3 +199,21 @@ class SettingsAppPage:
             return True
         except NoSuchElementException:
             return False
+
+    @allure.step("Получение количества выбранных языков")
+    def get_quantity_langs_in_lang(self):
+        quantity_langs = self.driver.find_elements(By.XPATH,
+                                                   '//*[@class="ant-select-selection-overflow"]'
+                                                   '/div[@class="ant-select-selection-overflow-item"]')
+        return len(quantity_langs)
+
+    @allure.step("Получение количества включенных локалей")
+    def get_quantity_langs_in_instance_editor(self):
+        quantity_langs = self.driver.find_elements(By.XPATH, '//*[@data-node-key]')
+        return len(quantity_langs)
+
+    @allure.step("Получение выбранного языка по умолчанию")
+    def get_selected_default_lang(self):
+        default_lang = self.driver.find_element(By.XPATH, '//span[@class="ant-select-selection-search"]'
+                                                          '/following-sibling::span')
+        return default_lang.get_attribute("title")
