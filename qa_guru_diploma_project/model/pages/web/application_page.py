@@ -39,6 +39,15 @@ class SettingsAppPage:
         login_btn.click()
         time.sleep(1)
 
+    @allure.step("Клик switch Логотип")
+    def click_switch_logo(self, browser):
+        switch_logo = WebDriverWait(browser, 10).until(
+            EC.visibility_of_element_located(
+                locator=(By.XPATH, '//*[@class="ant-space-item"][1]//*[@role="switch"]')
+            )
+        )
+        switch_logo.click()
+
     @allure.step("Клик switch Изображение")
     def click_switch_picture(self, browser):
         switch_picture = WebDriverWait(browser, 10).until(
@@ -109,6 +118,11 @@ class SettingsAppPage:
         switch_picture = self.driver.find_element(By.XPATH, '//*[contains(@class, "ant-upload-wrapper")]/../..//button')
         return switch_picture.get_attribute("aria-checked")
 
+    @allure.step("Получение статуса switch Логотип")
+    def get_status_switch_logo(self):
+        switch_picture = self.driver.find_element(By.XPATH, '//*[@class="ant-space-item"][1]//*[@role="switch"]')
+        return switch_picture.get_attribute("aria-checked")
+
     @allure.step("Получение текста выбранного tab")
     def get_selected_text_tab(self):
         tab = self.driver.find_element(By.XPATH, '//*[@role="tab" and @aria-selected="true"]')
@@ -141,6 +155,14 @@ class SettingsAppPage:
     def get_status_footer(self):
         try:
             self.driver.find_element(By.ID, "footer")
+            return True
+        except NoSuchElementException:
+            return False
+
+    @allure.step("Поиск лого в хэдере")
+    def get_status_logo(self):
+        try:
+            self.driver.find_element(By.XPATH, '//header//img[@alt="MESone"]')
             return True
         except NoSuchElementException:
             return False

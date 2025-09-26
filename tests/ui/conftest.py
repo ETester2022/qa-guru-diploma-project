@@ -107,3 +107,19 @@ def disabling_footer(get_access_token_admin):
                               headers={"Authorization": f"Bearer {get_access_token_admin}"},
                               json=request_body)
     return response
+
+@pytest.fixture()
+def disabling_logo(get_access_token_admin):
+    """Фикстура отключает Лого"""
+
+    request_body = {
+        "commonSettings": {
+            "logoMesoneEnabled": False
+        }
+    }
+
+    base_url_api = os.getenv('BASE_URL_API')
+    response = requests.patch(base_url_api + '/application/settings',
+                              headers={"Authorization": f"Bearer {get_access_token_admin}"},
+                              json=request_body)
+    return response

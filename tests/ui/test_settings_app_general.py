@@ -116,3 +116,22 @@ class TestSettingsApp:
 
         status_footer = app.application_page.get_status_footer()
         assert status_footer is True
+
+    @pytest.mark.test_activation_logo
+    @allure.tag("web")
+    @allure.link("https://stage.mesone.kz/settings/application")
+    @allure.label('owner', 'tster: Evgeniy')
+    @allure.title("Включение логотип в разделе Приложение/Общие")
+    @allure.severity(Severity.NORMAL)
+    def test_activation_logo(self, browser, refresh_token_admin, disabling_logo):
+        app = Application(browser)
+
+        app.application_page.open_settings_app_admin(browser, refresh_token_admin)
+        app.application_page.click_switch_logo(browser)
+        app.application_page.click_save_btn()
+
+        status_logo = app.application_page.get_status_logo()
+        status_switch_logo = app.application_page.get_status_switch_logo()
+
+        assert status_logo is True
+        assert status_switch_logo == "true"
