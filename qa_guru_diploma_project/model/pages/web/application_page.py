@@ -4,6 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from qa_guru_diploma_project.utils.utils import get_picture_path
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import Keys
 import time
 
 
@@ -96,21 +97,21 @@ class SettingsAppPage:
         lang1 = self.driver.find_element(By.XPATH, f'//div[@class="rc-virtual-list"]//*[@title="{lang}"]')
         lang1.click()
 
-    @allure.step("Клик таб EN")
-    def click_tab_en(self):
-        tab_en = self.driver.find_element(By.XPATH, '//*[@data-node-key="en-US"]/div')
+    @allure.step("Клик таб локаль")
+    def click_tab_locale(self, locale):
+        tab_en = self.driver.find_element(By.XPATH, f'//*[@data-node-key="{locale}"]/div')
         tab_en.click()
 
-    @allure.step("Ввод текста в поле Основной EN")
-    def input_text_field_main_en(self, text):
-        field_main = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
+    @allure.step("Ввод текста в поле Основной")
+    def input_text_field_main(self, locale, text):
+        field_main = self.driver.find_element(By.XPATH, f'(//*[contains(@id, "panel-{locale}")]'
                                                         '//*[@class="ant-space-item"])[1]//input')
         field_main.send_keys(text)
 
-    @allure.step("Ввод текста в поле Дополнительный EN")
-    def input_text_field_additional_en(self, text):
-        field_additional = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
-                                                        '//*[@class="ant-space-item"])[2]//input')
+    @allure.step("Ввод текста в поле Дополнительный")
+    def input_text_field_additional(self, locale, text):
+        field_additional = self.driver.find_element(By.XPATH, f'(//*[contains(@id, "panel-{locale}")]'
+                                                              '//*[@class="ant-space-item"])[2]//input')
         field_additional.send_keys(text)
 
     @allure.step("Клик таб RU")
@@ -158,18 +159,18 @@ class SettingsAppPage:
 
     @allure.step("Получение текста выбранного tab")
     def get_selected_text_tab(self):
-        tab = self.driver.find_element(By.XPATH, '//*[@role="tab" and @aria-selected="true"]')
-        return tab.text
+        tab = self.driver.find_element(By.XPATH, '//*[@role="tab" and @aria-selected="true"]/..')
+        return tab.get_attribute("data-node-key")
 
     @allure.step("Получение текста поле Основной")
-    def get_text_field_main_en(self):
-        field_main = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
+    def get_text_field_main(self, locale):
+        field_main = self.driver.find_element(By.XPATH, f'(//*[contains(@id, "panel-{locale}")]'
                                                         '//*[@class="ant-space-item"])[1]//input')
         return field_main.get_attribute("value")
 
     @allure.step("Получение текста поле Дополнительный")
-    def get_text_field_additional_en(self):
-        field_additional = self.driver.find_element(By.XPATH, '(//*[contains(@id, "panel-en-US")]'
+    def get_text_field_additional(self, locale):
+        field_additional = self.driver.find_element(By.XPATH, f'(//*[contains(@id, "panel-{locale}")]'
                                                               '//*[@class="ant-space-item"])[2]//input')
         return field_additional.get_attribute("value")
 
@@ -217,3 +218,150 @@ class SettingsAppPage:
         default_lang = self.driver.find_element(By.XPATH, '//span[@class="ant-select-selection-search"]'
                                                           '/following-sibling::span')
         return default_lang.get_attribute("title")
+
+    @allure.step("Клик collapse Функции времени")
+    def uncover_time_functions_collapse(self):
+        collapse_time_func = self.driver.find_element(By.XPATH,
+                                                      '//div[contains(@class, "ant-collapse-icon-position-start")]'
+                                                      '/div[2]')
+        collapse_time_func.click()
+
+    @allure.step("Клик switch Диапазон")
+    def click_switch_range(self):
+        switch_range = self.driver.find_element(By.XPATH, '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                          '/div[2]//button[@role="switch"])[1]')
+        switch_range.click()
+
+    @allure.step("Клик switch Видимость(Диапазон)")
+    def click_switch_range_visibility(self):
+        switch_range_visibility = self.driver.find_element(By.XPATH,
+                                                           '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                           '/div[2]//button[@role="switch"])[2]')
+        switch_range_visibility.click()
+
+    @allure.step("Выбор пресета")
+    def select_preset(self, text):
+        presets = self.driver.find_element(By.ID, 'presets')
+        presets.send_keys(text)
+        presets.send_keys(Keys.RETURN)
+
+    @allure.step("Клик btn Абсолютное")
+    def click_btn_absolute(self):
+        btn_absolute = self.driver.find_element(By.XPATH, '//*[@id="default_mode"]/label[1]')
+        btn_absolute.click()
+
+    @allure.step("Клик btn Относительное")
+    def click_btn_relative(self):
+        btn_relative = self.driver.find_element(By.XPATH, '//*[@id="default_mode"]/label[2]')
+        btn_relative.click()
+
+    @allure.step("Выбор даты и времени начала")
+    def select_time_function_left_date_and_time(self, **args):
+        self.driver.find_element(By.XPATH, '//*[@date-range="start"]').click()
+        self.driver.find_element(By.XPATH, '//button[@aria-label="month panel"]').click()
+        self.driver.find_element(By.XPATH, f'//td[contains(@title, "{args['month']}")]').click()
+        self.driver.find_element(By.XPATH,
+                                 f'//td[contains(@title, "{args['day']}") and contains(@class, "view")]').click()
+        self.driver.find_element(By.XPATH, f'//ul[@data-type="hour"]//*[@data-value="{args['hour']}"]').click()
+        self.driver.find_element(By.XPATH, f'//ul[@data-type="minute"]//*[@data-value="{args["minute"]}"]').click()
+        self.driver.find_element(By.XPATH, f'//ul[@data-type="second"]//*[@data-value="{args["second"]}"]').click()
+        self.driver.find_element(By.XPATH, '//*[@class="ant-picker-ok"]/button').click()
+
+    @allure.step("Выбор даты и времени окончания")
+    def select_time_function_right_date_and_time(self, **args):
+        self.driver.find_element(By.XPATH, '//*[@date-range="end"]').click()
+        self.driver.find_element(By.XPATH, '//button[@aria-label="month panel"]').click()
+        self.driver.find_element(By.XPATH, f'//td[contains(@title, "{args['month']}")]').click()
+        self.driver.find_element(By.XPATH,
+                                 f'//td[contains(@title, "{args['day']}") and contains(@class, "view")]').click()
+        self.driver.find_element(By.XPATH, f'//ul[@data-type="hour"]//*[@data-value="{args['hour']}"]').click()
+        self.driver.find_element(By.XPATH, f'//ul[@data-type="minute"]//*[@data-value="{args['minute']}"]').click()
+        self.driver.find_element(By.XPATH, f'//ul[@data-type="second"]//*[@data-value="{args['second']}"]').click()
+        self.driver.find_element(By.XPATH, '//*[@class="ant-picker-ok"]/button').click()
+
+    @allure.step("Получение статуса switch Диапазон")
+    def get_status_switch_range(self):
+        switch_range = self.driver.find_element(By.XPATH, '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                          '/div[2]//button[@role="switch"])[1]')
+        return switch_range.get_attribute("aria-checked")
+
+    @allure.step("Получение статуса switch Видимость")
+    def get_status_switch_visibility(self):
+        switch_range_visibility = self.driver.find_element(By.XPATH,
+                                                           '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                           '/div[2]//button[@role="switch"])[2]')
+        return switch_range_visibility.get_attribute("aria-checked")
+
+    @allure.step("Получение выбранного пресета")
+    def get_selected_preset(self, text):
+        selected_preset = self.driver.find_element(By.XPATH, '(//*[contains(@class, "ant-collapse-item")][2]'
+                                                             f'//*[@class="ant-select-selector"])[1]//*[@title="{text}"]')
+        return selected_preset.get_attribute("title")
+
+    @allure.step("Получение выбранного Значения по умолчанию")
+    def get_text_selected_default_value(self):
+        return self.driver.find_element(By.XPATH, '//*[@id="default_mode"]'
+                                                  '/label[contains(@class, "checked")]/span[2]').text
+
+    @allure.step("Получение значения старт диапазона")
+    def get_value_range_start(self):
+        value_range_start = self.driver.find_element(By.XPATH, '(//*[contains(@class, "ant-collapse-item")])[2]'
+                                                               '//*[@date-range="start"]')
+        return value_range_start.get_attribute("value")
+
+    @allure.step("Получение значения окончание диапазона")
+    def get_value_range_end(self):
+        value_range_end = self.driver.find_element(By.XPATH, '(//*[contains(@class, "ant-collapse-item")])[2]'
+                                                             '//*[@date-range="end"]')
+        return value_range_end.get_attribute("value")
+
+    @allure.step("Выбор пресета по умолчанию(Диапазон)")
+    def select_default_preset(self, preset):
+        field_default_presets = self.driver.find_element(By.ID, 'default_preset')
+        field_default_presets.click()
+        select_preset = self.driver.find_element(By.XPATH, f'//*[@title="{preset}"]')
+        select_preset.click()
+
+    @allure.step("Получение выбранного пресета по умолчанию")
+    def get_selected_default_preset(self):
+        selected_preset = self.driver.find_element(By.XPATH, '//*[@id="default_preset"]/../following-sibling::span[1]')
+        return selected_preset.get_attribute("title")
+
+    @allure.step("Клик switch Обновление")
+    def click_switch_updater(self):
+        switch_updater = self.driver.find_element(By.XPATH, '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                            '/div[2]//button[@role="switch"])[3]')
+        switch_updater.click()
+
+    @allure.step("Клик switch Видимость(Updater)")
+    def click_switch_updater_visibility(self):
+        switch_updater_visibility = self.driver.find_element(By.XPATH,
+                                                             '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                             '/div[2]//button[@role="switch"])[4]')
+        switch_updater_visibility.click()
+
+    @allure.step("Выбор пресета по умолчанию(Updater)")
+    def select_default_preset_updater(self, preset):
+        default_preset_updater = self.driver.find_element(By.XPATH, '//*[@id="default"]/../..')
+        default_preset_updater.click()
+        select_preset = self.driver.find_element(By.XPATH, f'//*[@title="{preset}"]')
+        select_preset.click()
+
+    @allure.step("Получение статуса switch Обновление")
+    def get_status_switch_updater(self):
+        get_status_switch_updater = self.driver.find_element(By.XPATH,
+                                                             '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                             '/div[2]//button[@role="switch"])[3]')
+        return get_status_switch_updater.get_attribute("aria-checked")
+
+    @allure.step("Получение статуса switch Видимость(Updater)")
+    def get_status_switch_visibility_updater(self):
+        switch_visibility_updater = self.driver.find_element(By.XPATH,
+                                                             '(//*[contains(@class, "ant-collapse-icon-position-start")]'
+                                                             '/div[2]//button[@role="switch"])[4]')
+        return switch_visibility_updater.get_attribute("aria-checked")
+
+    @allure.step("Получение выбранного пресета Обновление")
+    def get_selected_preset_updater(self):
+        selected_preset = self.driver.find_element(By.XPATH, '//*[@id="default"]/../following-sibling::span[1]')
+        return selected_preset.get_attribute("title")

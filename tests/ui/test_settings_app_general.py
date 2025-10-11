@@ -1,3 +1,5 @@
+import random
+
 import pytest
 import allure
 from allure_commons.types import Severity
@@ -9,7 +11,7 @@ from qa_guru_diploma_project.utils.application import Application
 @pytest.mark.test_settings_app
 @allure.epic("43483, Админские настройки")
 @allure.feature("43531, Приложение")
-class TestSettingsApp:
+class TestSettingsAppGeneral:
 
     @pytest.mark.test_upload_picture
     @allure.tag("web")
@@ -54,20 +56,23 @@ class TestSettingsApp:
     @allure.label('owner', 'tster: Evgeniy')
     @allure.title("Ввод Основного текста для лого в разделе Приложение/Общие")
     @allure.severity(Severity.NORMAL)
-    def test_input_main_text_logo(self, browser, refresh_token_admin, default_main_text_en):
+    def test_input_main_text_logo(self, browser, refresh_token_admin, activation_all_locales, default_main_text):
+
+        locale = random.choice(["ru-RU", "en-US", "kk-KZ", "de-DE"])
+
         app = Application(browser)
 
         app.application_page.open_settings_app_admin(browser, refresh_token_admin)
         app.application_page.click_switch_text()
-        app.application_page.click_tab_en()
-        app.application_page.input_text_field_main_en("MESone en-US")
+        app.application_page.click_tab_locale(locale)
+        app.application_page.input_text_field_main(locale, f"MESone - {locale}")
         app.application_page.click_save_btn()
-        app.application_page.click_tab_en()
+        app.application_page.click_tab_locale(locale)
 
         tab_text = app.application_page.get_selected_text_tab()
-        text_field_main = app.application_page.get_text_field_main_en()
-        assert tab_text == "EN"
-        assert text_field_main == "MESone en-US"
+        text_field_main = app.application_page.get_text_field_main(locale)
+        assert tab_text == locale
+        assert text_field_main == f"MESone - {locale}"
 
     @pytest.mark.test_select_style_dark
     @allure.tag("web")
