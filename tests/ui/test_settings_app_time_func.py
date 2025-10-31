@@ -51,7 +51,7 @@ class TestSettingsAppTimeFunction:
         status_switch_range = app.application_page.get_status_switch_range()
         status_switch_visibility = app.application_page.get_status_switch_visibility()
         selected_preset = app.application_page.get_selected_preset(preset)
-        text_selected_default_value = app.application_page.get_text_selected_default_value()
+        text_selected_default_value = app.application_page.get_text_selected_default_value(browser)
         value_range_start = app.application_page.get_value_range_start()
         value_range_end = app.application_page.get_value_range_end()
 
@@ -85,7 +85,7 @@ class TestSettingsAppTimeFunction:
 
         status_switch_range = app.application_page.get_status_switch_range()
         status_switch_visibility = app.application_page.get_status_switch_visibility()
-        text_selected_default_value = app.application_page.get_text_selected_default_value()
+        text_selected_default_value = app.application_page.get_text_selected_default_value(browser)
         selected_default_preset = app.application_page.get_selected_default_preset()
 
         assert status_switch_range == "true"

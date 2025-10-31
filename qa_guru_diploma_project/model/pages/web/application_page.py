@@ -299,9 +299,14 @@ class SettingsAppPage:
         return selected_preset.get_attribute("title")
 
     @allure.step("Получение выбранного Значения по умолчанию")
-    def get_text_selected_default_value(self):
-        return self.driver.find_element(By.XPATH, '//*[@id="default_mode"]'
-                                                  '/label[contains(@class, "checked")]/span[2]').text
+    def get_text_selected_default_value(self, browser):
+        btn_text = WebDriverWait(browser, 10).until(
+            EC.visibility_of_element_located(
+                locator=(By.XPATH, '//*[@id="default_mode"]'
+                                   '/label[contains(@class, "checked")]/span[2]')
+            )
+        )
+        return btn_text.text
 
     @allure.step("Получение значения старт диапазона")
     def get_value_range_start(self):
