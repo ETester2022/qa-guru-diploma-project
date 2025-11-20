@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from qa_guru_diploma_project.utils.utils import get_picture_path
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import Keys
+from selenium.webdriver import ActionChains
 import time
 
 
@@ -35,6 +36,11 @@ class SettingsToolsPage:
     @allure.step("Клик Настройки таблицы")
     def uncover_settings_table_collapse(self):
         element = self.driver.find_element(By.XPATH, '//*[@data-test-id="settings_table_collapse"]/*[@role="button"]')
+        element.click()
+
+    @allure.step("Клик Конструктор формы ввода/вывода")
+    def uncover_form_constructor_collapse(self):
+        element = self.driver.find_element(By.XPATH, '//*[@data-test-id="form_builder_collapse"]/*[@role="button"]')
         element.click()
 
     @allure.step("Клик Switch Пагинация")
@@ -318,3 +324,79 @@ class SettingsToolsPage:
         element = self.driver.find_element(By.XPATH,
                                            '(//*[@data-test-id="settings_table_collapse"]//*[@role="switch"])[11]')
         return element.get_attribute("aria-checked")
+
+    @allure.step("Удаление 1 символа в поле Размер шрифта")
+    def clear_one_simbol_columns(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '//*[@data-test-id="form_builder_collapse"]//*[@aria-valuemin="1"]')
+        element.send_keys(Keys.BACKSPACE)
+
+    @allure.step("Заполнение поля Столбцов")
+    def filling_columns(self, columns):
+        element = self.driver.find_element(By.XPATH,
+                                           '//*[@data-test-id="form_builder_collapse"]//*[@aria-valuemin="1"]')
+        element.send_keys(columns)
+    @allure.step("Подсчет кол-ва полей в Конструктор формы ввода/вывода")
+    def count_fields_in_form_constructor(self):
+        elements = self.driver.find_elements(By.XPATH,
+                                        '//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"]')
+        return len(elements)
+
+    @allure.step("Перемещение поля 3 на место поля 1 в Конструктор формы ввода/вывода")
+    def moving_field_in_form_constructor(self):
+        source = self.driver.find_element(By.XPATH, '(//*[@data-test-id="form_builder_collapse"]'
+                                                    '//*[@data-grid="[object Object]"]/label)[3]')
+
+        target = self.driver.find_element(By.XPATH, '(//*[@data-test-id="form_builder_collapse"]'
+                                                    '//*[@data-grid="[object Object]"])[1]')
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", target)
+
+        actions = ActionChains(self.driver)
+        actions.click_and_hold(source).pause(0.5)
+        actions.move_to_element(target).move_by_offset(10, 10).pause(0.5)
+        actions.release().perform()
+
+    @allure.step("Изменение ширины и высоты поля в Конструктор формы ввода/вывода")
+    def changing_width_and_height_field_in_form_constructor(self):
+        # Находим ручку ресайза (например, span[7])
+        resize_handle = self.driver.find_element(By.XPATH, '(//*[@data-test-id="form_builder_collapse"]'
+                                                           '//*[@data-grid="[object Object]"])[1]/span[7]')
+
+        actions = ActionChains(self.driver)
+        actions.click_and_hold(resize_handle).pause(0.5)
+        actions.move_by_offset(120, 60).pause(0.5)
+        actions.release().perform()
+
+    @allure.step("Сравнение размеров полей в Конструктор формы ввода/вывода")
+    def comparison_field_sizes(self):
+        # Находим элемент
+        element1 = self.driver.find_element(By.XPATH,
+                                       '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[1]')
+        element2 = self.driver.find_element(By.XPATH,
+                                       '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[2]')
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element1)
+
+        # Получаем размеры
+        size1 = element1.size  # {'height': 70, 'width': 153}
+        size2 = element2.size  # {'height': 110, 'width': 317}
+
+        # Сравнение
+        assert size1['height'] > size2['height'], f"Высота одинаковая: {size1['height']}"
+        assert size1['width'] > size2['width'], f"Ширина одинаковая: {size1['width']}"
+
+    @allure.step("Получение списка полей в Конструктор формы ввода/вывода")
+    def get_list_of_fields_in_form_constructor(self):
+        elements = self.driver.find_elements(By.XPATH,
+                                       '//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"]//label')
+        names = [element.text for element in elements]
+        return names
+
+    @allure.step("Получение расположения поля в Конструктор формы ввода/вывода")
+    def get_field_location_in_form_constructor(self):
+        element = self.driver.find_element(By.XPATH,
+                                       '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[3]')
+        transform_inline = self.driver.execute_script("return arguments[0].style.transform;", element)
+        return transform_inline
+
+"transform: translate(10px, 10px)"
+"transform: translate(10px, 170px)"
