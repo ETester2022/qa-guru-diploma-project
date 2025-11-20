@@ -64,7 +64,7 @@ class SettingsToolsPage:
     @allure.step("Проверка доступности поля Пагинация")
     def is_enabled_pagination_field(self):
         element = self.driver.find_element(By.XPATH,
-                                    '(//*[@data-test-id="settings_table_collapse"]//*[@role="spinbutton"])[1]')
+                                           '(//*[@data-test-id="settings_table_collapse"]//*[@role="spinbutton"])[1]')
         return element.is_enabled()
 
     @allure.step("Клик btn сверху")
@@ -76,7 +76,7 @@ class SettingsToolsPage:
     @allure.step("Проверка доступности btn сверху")
     def is_enabled_rbtn_pagination_top(self):
         element = self.driver.find_element(By.XPATH,
-                                    '//*[@data-test-id="settings_table_collapse"]//input[@value="top"]')
+                                           '//*[@data-test-id="settings_table_collapse"]//input[@value="top"]')
         return element.is_enabled()
 
     @allure.step("Клик btn снизу")
@@ -88,7 +88,7 @@ class SettingsToolsPage:
     @allure.step("Проверка доступности btn снизу")
     def is_enabled_rbtn_pagination_bottom(self):
         element = self.driver.find_element(By.XPATH,
-                                    '//*[@data-test-id="settings_table_collapse"]//input[@value="bottom"]')
+                                           '//*[@data-test-id="settings_table_collapse"]//input[@value="bottom"]')
         return element.is_enabled()
 
     @allure.step("Клик Сохранить")
@@ -208,7 +208,7 @@ class SettingsToolsPage:
     @allure.step("Проверка доступности поля Сверху")
     def is_enabled_top_fix_field(self):
         element = self.driver.find_element(By.XPATH,
-                                    '//*[@data-test-id="settings_table_collapse"]//*[@name="rowTop"]')
+                                           '//*[@data-test-id="settings_table_collapse"]//*[@name="rowTop"]')
         return element.is_enabled()
 
     @allure.step("Получение value поля Сверху")
@@ -226,7 +226,7 @@ class SettingsToolsPage:
     @allure.step("Проверка доступности поля Слева")
     def is_enabled_left_fix_field(self):
         element = self.driver.find_element(By.XPATH,
-                                    '//*[@data-test-id="settings_table_collapse"]//*[@name="colLeft"]')
+                                           '//*[@data-test-id="settings_table_collapse"]//*[@name="colLeft"]')
         return element.is_enabled()
 
     @allure.step("Получение value поля Слева")
@@ -244,7 +244,7 @@ class SettingsToolsPage:
     @allure.step("Проверка доступности поля Справа")
     def is_enabled_right_fix_field(self):
         element = self.driver.find_element(By.XPATH,
-                                    '//*[@data-test-id="settings_table_collapse"]//*[@name="colRight"]')
+                                           '//*[@data-test-id="settings_table_collapse"]//*[@name="colRight"]')
         return element.is_enabled()
 
     @allure.step("Получение value поля Справа")
@@ -336,10 +336,11 @@ class SettingsToolsPage:
         element = self.driver.find_element(By.XPATH,
                                            '//*[@data-test-id="form_builder_collapse"]//*[@aria-valuemin="1"]')
         element.send_keys(columns)
+
     @allure.step("Подсчет кол-ва полей в Конструктор формы ввода/вывода")
     def count_fields_in_form_constructor(self):
         elements = self.driver.find_elements(By.XPATH,
-                                        '//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"]')
+                                             '//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"]')
         return len(elements)
 
     @allure.step("Перемещение поля 3 на место поля 1 в Конструктор формы ввода/вывода")
@@ -371,9 +372,9 @@ class SettingsToolsPage:
     def comparison_field_sizes(self):
         # Находим элемент
         element1 = self.driver.find_element(By.XPATH,
-                                       '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[1]')
+                                            '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[1]')
         element2 = self.driver.find_element(By.XPATH,
-                                       '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[2]')
+                                            '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[2]')
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element1)
 
         # Получаем размеры
@@ -387,16 +388,13 @@ class SettingsToolsPage:
     @allure.step("Получение списка полей в Конструктор формы ввода/вывода")
     def get_list_of_fields_in_form_constructor(self):
         elements = self.driver.find_elements(By.XPATH,
-                                       '//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"]//label')
+                                             '//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"]//label')
         names = [element.text for element in elements]
         return names
 
     @allure.step("Получение расположения поля в Конструктор формы ввода/вывода")
     def get_field_location_in_form_constructor(self):
         element = self.driver.find_element(By.XPATH,
-                                       '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[3]')
+                                           '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[3]')
         transform_inline = self.driver.execute_script("return arguments[0].style.transform;", element)
         return transform_inline
-
-"transform: translate(10px, 10px)"
-"transform: translate(10px, 170px)"

@@ -26,7 +26,7 @@ class TestFormConstructor:
 
         app.tools_editor_page.uncover_form_constructor_collapse()
 
-        assert app.tools_editor_page.count_fields_in_form_constructor()  == 0
+        assert app.tools_editor_page.count_fields_in_form_constructor() == 0
 
     @pytest.mark.test_moving_and_resizing_fields
     @allure.tag("web")
@@ -53,6 +53,6 @@ class TestFormConstructor:
 
         location_field_after = app.tools_editor_page.get_field_location_in_form_constructor()
 
-        assert app.tools_editor_page.count_fields_in_form_constructor()  == 3
+        assert app.tools_editor_page.count_fields_in_form_constructor() == 3
         app.tools_editor_page.comparison_field_sizes()
         assert location_field_before != location_field_after
