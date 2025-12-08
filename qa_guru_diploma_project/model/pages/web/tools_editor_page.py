@@ -67,29 +67,23 @@ class SettingsToolsPage:
                                            '(//*[@data-test-id="settings_table_collapse"]//*[@role="spinbutton"])[1]')
         return element.is_enabled()
 
-    @allure.step("Клик btn сверху")
-    def click_rbtn_pagination_top(self):
+    @allure.step("Клик rbtn")
+    def click_rbtn_pagination(self, rbtn_value):
         element = self.driver.find_element(By.XPATH,
-                                           '//*[@data-test-id="settings_table_collapse"]//input[@value="top"]/../..')
+                                           f'//*[@data-test-id="settings_table_collapse"]//input[@value="{rbtn_value}"]/../..')
         element.click()
 
-    @allure.step("Проверка доступности btn сверху")
-    def is_enabled_rbtn_pagination_top(self):
+    @allure.step("Проверка доступности rbtn")
+    def is_enabled_rbtn_pagination(self, rbtn_value):
         element = self.driver.find_element(By.XPATH,
-                                           '//*[@data-test-id="settings_table_collapse"]//input[@value="top"]')
+                                           f'//*[@data-test-id="settings_table_collapse"]//input[@value="{rbtn_value}"]')
         return element.is_enabled()
 
-    @allure.step("Клик btn снизу")
-    def click_rbtn_pagination_bottom(self):
-        element = self.driver.find_element(By.XPATH,
-                                           '//*[@data-test-id="settings_table_collapse"]//input[@value="bottom"]/../..')
-        element.click()
-
-    @allure.step("Проверка доступности btn снизу")
-    def is_enabled_rbtn_pagination_bottom(self):
-        element = self.driver.find_element(By.XPATH,
-                                           '//*[@data-test-id="settings_table_collapse"]//input[@value="bottom"]')
-        return element.is_enabled()
+    # @allure.step("Проверка доступности btn снизу")
+    # def is_enabled_rbtn_pagination_bottom(self):
+    #     element = self.driver.find_element(By.XPATH,
+    #                                        '//*[@data-test-id="settings_table_collapse"]//input[@value="bottom"]')
+    #     return element.is_enabled()
 
     @allure.step("Клик Сохранить")
     def click_save_btn(self):
@@ -105,9 +99,8 @@ class SettingsToolsPage:
     @allure.step("Получение статуса rbtn Пагинация")
     def get_status_rbtn_pagination(self):
         element = self.driver.find_element(By.XPATH,
-                                           '//*[@data-test-id="settings_table_collapse"]'
-                                           '//label[contains(@class, "checked")]/span[2]')
-        return element.text()
+                                           '//*[@data-test-id="settings_table_collapse"]//label[contains(@class, "checked")]//input')
+        return element.get_attribute("value")
 
     @allure.step("Получение value поля Пагинация")
     def get_value_pagination_field(self):
