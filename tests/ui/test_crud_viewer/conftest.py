@@ -165,3 +165,52 @@ def create_crud_with_fields(get_access_token_admin):
                               headers={"Authorization": f"Bearer {get_access_token_admin}"},
                               json=post_request_body)
     return response
+
+@pytest.fixture()
+def create_crud_all_settings_table_false(get_access_token_admin):
+
+    tool_name = "create_name"
+    post_request_body = {
+        "name": tool_name,
+        "type": "crud"
+    }
+    patch_request_body = {
+      "toolSettings": {
+        "exportCsv": False,
+        "exportJson": False,
+        "exportXlsx": False,
+        "exportPdf": False,
+        "importCsv": False,
+        "importJson": False,
+        "fontSize": 12,
+        "rowHeight": 25,
+        "fitToWidth": False,
+        "paginationEnabled": False,
+        "paginationRows": 10,
+        "paginationPosition": "up",
+        "source": "dflt.cities",
+        "crudFields": [
+            {"fieldName": "dflt.cities.name",
+             "enabled": True},
+            {"fieldName": "dflt.cities.population",
+             "enabled": True},
+            {"fieldName": "dflt.cities.coordinates",
+             "enabled": True}
+        ]
+      }
+    }
+
+    base_url_api = os.getenv('BASE_URL_API')
+    response = requests.post(base_url_api + '/tools',
+                              headers={"Authorization": f"Bearer {get_access_token_admin}"},
+                              json=post_request_body)
+    requests.patch(base_url_api + f'/tools/{tool_name}',
+                  headers={"Authorization": f"Bearer {get_access_token_admin}"},
+                  json=patch_request_body)
+    yield response
+
+    base_url_api = os.getenv('BASE_URL_API')
+    response = requests.delete(base_url_api + f'/tools/{tool_name}',
+                              headers={"Authorization": f"Bearer {get_access_token_admin}"},
+                              json=post_request_body)
+    return response

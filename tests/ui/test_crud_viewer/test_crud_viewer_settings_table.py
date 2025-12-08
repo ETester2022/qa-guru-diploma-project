@@ -43,3 +43,19 @@ class TestCrudViewerSettingsTable:
         assert app.crud_viewer_page.is_enabled_fix_row() == True
         assert app.crud_viewer_page.get_name_fix_left() == 'name'
         assert app.crud_viewer_page.get_name_fix_right() == 'coordinates'
+
+    @pytest.mark.test_disable_all_settings_false
+    @allure.tag("web")
+    @allure.testcase("44200")
+    def test_disable_all_settings_false(self, browser, refresh_token_admin, create_crud_all_settings_table_false):
+        tool_name = create_crud_all_settings_table_false.json()["name"]
+        app = Application(browser)
+
+        app.crud_viewer_page.open_tools_viewer_admin(browser, refresh_token_admin, tool_name)
+
+        assert app.crud_viewer_page.is_enabled_pagination() == False
+        assert app.crud_viewer_page.get_height_field() == "25px"
+        assert app.crud_viewer_page.get_font_size() == "12px"
+        assert app.crud_viewer_page.get_count_btn_import() == 0
+        assert app.crud_viewer_page.get_count_btn_export() == 0
+        assert app.crud_viewer_page.is_auto_stretching() == "fitData"

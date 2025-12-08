@@ -26,8 +26,11 @@ class CrudViewerPage:
 
     @allure.step("Проверка отображения pagination")
     def is_enabled_pagination(self):
-        element = self.driver.find_element(By.XPATH, '//ul[contains(@class, "ant-pagination")]')
-        return element.is_enabled()
+        try:
+            element = self.driver.find_element(By.XPATH, '//ul[contains(@class, "ant-pagination")]')
+            return element.is_enabled()
+        except NoSuchElementException:
+            return False
 
     @allure.step("Получение колличества btn import")
     def get_count_btn_import(self):
