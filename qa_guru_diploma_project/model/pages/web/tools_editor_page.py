@@ -28,10 +28,21 @@ class SettingsToolsPage:
     def selecting_editor_tool(self, tool_name):
         element_search = self.driver.find_element(By.XPATH, '//input[@placeholder="Search text"]')
         element_search.send_keys(tool_name)
-
         element_name = self.driver.find_element(By.XPATH,
                                                 f'(//*[@class="ant-tree-list"]//span[contains(., "{tool_name}")])[1]')
         element_name.click()
+        element_search.send_keys(Keys.CONTROL, "a")
+        element_search.send_keys(Keys.BACKSPACE)
+
+    @allure.step("Клик Настройки таблицы")
+    def uncover_info_collapse(self):
+        element = self.driver.find_element(By.XPATH, '//*[@class="ant-collapse-header"][1]')
+        element.click()
+
+    @allure.step("Клик Права")
+    def uncover_permissions_collapse(self):
+        element = self.driver.find_element(By.XPATH, '//*[@data-test-id="permissions_collapse"]/*[@role="button"]')
+        element.click()
 
     @allure.step("Клик Настройки таблицы")
     def uncover_settings_table_collapse(self):
@@ -42,6 +53,42 @@ class SettingsToolsPage:
     def uncover_form_constructor_collapse(self):
         element = self.driver.find_element(By.XPATH, '//*[@data-test-id="form_builder_collapse"]/*[@role="button"]')
         element.click()
+
+    @allure.step("Клик Switch Добавить")
+    def click_switch_add(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '(//*[@data-test-id="permissions_collapse"]//*[@role="switch"])[1]')
+        element.click()
+
+    @allure.step("Клик Switch Изменить")
+    def click_switch_edit(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '(//*[@data-test-id="permissions_collapse"]//*[@role="switch"])[2]')
+        element.click()
+
+    @allure.step("Клик Switch Удалить")
+    def click_switch_delete(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '(//*[@data-test-id="permissions_collapse"]//*[@role="switch"])[3]')
+        element.click()
+
+    @allure.step("Получение статуса Switch Добавить")
+    def get_status_switch_add(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '(//*[@data-test-id="permissions_collapse"]//*[@role="switch"])[1]')
+        return element.get_attribute("aria-checked")
+
+    @allure.step("Получение статуса Switch Изменить")
+    def get_status_switch_edit(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '(//*[@data-test-id="permissions_collapse"]//*[@role="switch"])[2]')
+        return element.get_attribute("aria-checked")
+
+    @allure.step("Получение статуса Switch Удалить")
+    def get_status_switch_delete(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '(//*[@data-test-id="permissions_collapse"]//*[@role="switch"])[3]')
+        return element.get_attribute("aria-checked")
 
     @allure.step("Клик Switch Пагинация")
     def click_switch_pagination(self):
@@ -88,6 +135,11 @@ class SettingsToolsPage:
     @allure.step("Клик Сохранить")
     def click_save_btn(self):
         login_btn = self.driver.find_element(By.XPATH, '//*[@aria-label="save"]')
+        login_btn.click()
+
+    @allure.step("Клик Отмена")
+    def click_cancel_btn(self):
+        login_btn = self.driver.find_element(By.XPATH, '//*[@aria-label="stop"]')
         login_btn.click()
 
     @allure.step("Получение статуса Switch Пагинация")
@@ -391,3 +443,114 @@ class SettingsToolsPage:
                                            '(//*[@data-test-id="form_builder_collapse"]//*[@data-grid="[object Object]"])[3]')
         transform_inline = self.driver.execute_script("return arguments[0].style.transform;", element)
         return transform_inline
+
+    @allure.step("Открытие меню настроек")
+    def click_settings(self):
+        self.driver.find_element(By.ID, 'menu_settings').click()
+
+    @allure.step("Переход на страницу - Инструменты")
+    def go_to_tools(self):
+        self.driver.find_element(By.ID, 'menu_tools').click()
+
+    @allure.step("Подсчет количества инструментов")
+    def count_of_tools(self):
+        count_tools = self.driver.find_elements(By.XPATH, '//*[@class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-normal"]')
+        return len(count_tools)
+
+    @allure.step("Поиск и клик по 'Добавить'")
+    def click_add_tool(self):
+        self.driver.find_element(By.XPATH, '//*[@class="Pane vertical Pane1  "]//*[@aria-label="plus"]').click()
+        
+    @allure.step("Ввод имени инструмента")
+    def fill_tool_name(self, name_of_tool):
+        self.driver.find_element(By.XPATH, '//*[@class="ant-modal-body"]//*[@type="text"]').send_keys(name_of_tool)
+
+    @allure.step("Выбор типа инструмента")
+    def select_tool_type(self, tool_type):
+        self.driver.find_element(By.XPATH, '//*[@class="ant-modal-body"]//*[@class="ant-select-selector"]').click()
+        self.driver.find_element(By.XPATH, f'//*[contains(@class, "ant-select-dropdown")]//*[@title="{tool_type}"]').click()
+
+    @allure.step("Клик по ОК")
+    def click_ok_create_tool(self):
+        self.driver.find_element(By.XPATH, '//*[@class="ant-modal-content"]//*[@type="submit"]').click()
+
+    @allure.step("Клик по Отмена")
+    def click_cancel_create_tool(self):
+        self.driver.find_element(By.XPATH, '(//*[@class="ant-modal-content"]//*[@type="button"])[1]').click()
+
+    @allure.step("Получение списка названий инструментов")
+    def get_list_names_of_tools(self):
+        elements = self.driver.find_elements(By.XPATH, '//*[@class="ant-tree-title"]/span')
+        names = [element.text for element in elements]
+        return names
+
+    @allure.step("Получение имени инструмента в common settings")
+    def get_name_common_settings(self):
+        element = self.driver.find_element(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]//input[@type="text"])[1]')
+        return element.get_attribute('value')
+        
+    @allure.step("Получение типа инструмента в common settings")
+    def get_type_common_settings(self):
+        element = self.driver.find_element(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]'
+                                                    '//*[@class="ant-select-selection-search"])[1]/following-sibling::span[1]')
+        return element.get_attribute('title')
+
+    @allure.step("Проверка доступности поля Имя")
+    def is_enabled_field_name(self):
+        element = self.driver.find_element(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]//input[@type="text"])[1]')
+        return element.is_enabled()
+
+    @allure.step("Проверка доступности поля Тип")
+    def is_enabled_field_type(self):
+        element = self.driver.find_element(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]//*[@class="ant-select-selection-search"])[1]/input')
+        return element.is_enabled()
+
+    @allure.step("Получение сообщения об ошибке")
+    def get_error_message(self):
+        element = self.driver.find_element(By.XPATH, '//*[@class="ant-notification-notice-message"]')
+        return element.text
+
+    @allure.step("Клик по кнопке Удалить")
+    def click_delete_tool(self):
+        self.driver.find_element(By.XPATH, '//*[@aria-label="delete"]').click()
+
+    @allure.step("Клик по кнопке Да")
+    def click_yes_delete_tool(self):
+        self.driver.find_element(By.XPATH, '(//*[@class="ant-modal-content"]//*[@type="button"])[2]').click()
+
+    @allure.step("Клик по кнопке Нет")
+    def click_no_delete_tool(self):
+        self.driver.find_element(By.XPATH, '(//*[@class="ant-modal-content"]//*[@type="button"])[1]').click()
+
+    @allure.step("Заполнение поля Label")
+    def filling_label_field(self, label):
+        self.driver.find_element(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]//input[@type="text"])[2]').send_keys(label)
+
+    @allure.step("Выбор пользователя/группы")
+    def selecting_permission(self, permission):
+        element = self.driver.find_element(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]//*[@type="search"])[3]')
+        element.send_keys(permission)
+        element2 = self.driver.find_element(By.XPATH, f'(//*[@title="{permission}"])[2]')
+        element2.click()
+
+
+    @allure.step("Получение значения label в common settings")
+    def get_label_common_settings(self):
+        element = self.driver.find_element(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]//input[@type="text"])[2]')
+        return element.get_attribute('value')
+
+    @allure.step("Получение количества выбранных групп permission в common settings")
+    def get_count_selected_group_permission_common_settings(self):
+        count_of_elements = self.driver.find_elements(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]'
+                                                    '//*[@class="ant-select-selector"])[3]//*[contains(@class, "ant-tag-blue")]')
+        return len(count_of_elements)
+
+    @allure.step("Получение количества выбранных пользователей permission в common settings")
+    def get_count_selected_user_permission_common_settings(self):
+
+        count_of_elements = self.driver.find_elements(By.XPATH, '((//*[contains(@class, "collapse-icon-position-start")])[1]'
+                                                    '//*[@class="ant-select-selector"])[3]//*[contains(@class, "ant-tag-green")]')
+        total_elements = len(count_of_elements) - 1
+        return total_elements
+
+        

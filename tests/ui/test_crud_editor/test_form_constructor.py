@@ -37,6 +37,7 @@ class TestFormConstructor:
 
         app.tools_editor_page.open_settings_tools_admin(browser, refresh_token_admin)
         app.tools_editor_page.selecting_editor_tool(tool_name)
+        app.tools_editor_page.uncover_info_collapse()
 
         app.tools_editor_page.uncover_form_constructor_collapse()
         app.tools_editor_page.clear_one_simbol_columns()

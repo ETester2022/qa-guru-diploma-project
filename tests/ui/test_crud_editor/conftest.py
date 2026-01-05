@@ -51,7 +51,10 @@ def create_crud_with_settings_table(get_access_token_admin):
         "rowHeight": 12,
         "fitToWidth": True,
         "paginationEnabled": True,
-        "paginationRows": 10
+        "paginationRows": 10,
+        "staticCreate": True,
+        "staticUpdate": True,
+        "staticDelete": True
       }
     }
 
@@ -105,4 +108,13 @@ def create_crud_with_fields(get_access_token_admin):
     response = requests.delete(base_url_api + f'/tools/{tool_name}',
                               headers={"Authorization": f"Bearer {get_access_token_admin}"},
                               json=post_request_body)
+    return response
+
+@pytest.fixture()
+def delete_tool_crud(get_access_token_admin):
+    yield
+    tool_name = "selenium_CRUD"
+    base_url_api = os.getenv('BASE_URL_API')
+    response = requests.delete(base_url_api + f'/tools/{tool_name}',
+                              headers={"Authorization": f"Bearer {get_access_token_admin}"})
     return response
