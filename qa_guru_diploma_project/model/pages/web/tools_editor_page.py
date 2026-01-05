@@ -370,16 +370,16 @@ class SettingsToolsPage:
                                            '(//*[@data-test-id="settings_table_collapse"]//*[@role="switch"])[11]')
         return element.get_attribute("aria-checked")
 
-    @allure.step("Удаление 1 символа в поле Размер шрифта")
+    @allure.step("Удаление 1 символа в поле Столбцов")
     def clear_one_simbol_columns(self):
         element = self.driver.find_element(By.XPATH,
-                                           '//*[@data-test-id="form_builder_collapse"]//*[@aria-valuemin="1"]')
+                                           '(//*[@data-test-id="form_builder_collapse"]//*[@aria-valuemin="1"])[2]')
         element.send_keys(Keys.BACKSPACE)
 
     @allure.step("Заполнение поля Столбцов")
     def filling_columns(self, columns):
         element = self.driver.find_element(By.XPATH,
-                                           '//*[@data-test-id="form_builder_collapse"]//*[@aria-valuemin="1"]')
+                                           '(//*[@data-test-id="form_builder_collapse"]//*[@aria-valuemin="1"])[2]')
         element.send_keys(columns)
 
     @allure.step("Подсчет кол-ва полей в Конструктор формы ввода/вывода")

@@ -59,8 +59,8 @@ class TestSettingsAppTimeFunction:
         assert status_switch_visibility == "true"
         assert selected_preset == preset
         assert text_selected_default_value == "Абсолютное"
-        assert value_range_start == "2025-09-03 00:00:00"
-        assert value_range_end == "2025-09-05 07:06:05"
+        assert value_range_start == "2026-09-03 00:00:00"
+        assert value_range_end == "2026-09-05 07:06:05"
 
     @pytest.mark.test_range_relative
     @allure.tag("web")

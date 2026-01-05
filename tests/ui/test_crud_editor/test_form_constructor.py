@@ -44,7 +44,6 @@ class TestFormConstructor:
         app.tools_editor_page.filling_columns(columns=3)
 
         location_field_before = app.tools_editor_page.get_field_location_in_form_constructor()
-
         app.tools_editor_page.moving_field_in_form_constructor()
         app.tools_editor_page.changing_width_and_height_field_in_form_constructor()
 
@@ -55,5 +54,5 @@ class TestFormConstructor:
         location_field_after = app.tools_editor_page.get_field_location_in_form_constructor()
 
         assert app.tools_editor_page.count_fields_in_form_constructor() == 3
-        app.tools_editor_page.comparison_field_sizes()
         assert location_field_before != location_field_after
+        app.tools_editor_page.comparison_field_sizes()
