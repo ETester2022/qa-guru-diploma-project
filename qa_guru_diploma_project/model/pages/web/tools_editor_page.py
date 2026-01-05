@@ -39,9 +39,19 @@ class SettingsToolsPage:
         element = self.driver.find_element(By.XPATH, '//*[@class="ant-collapse-header"][1]')
         element.click()
 
+    @allure.step("Клик Источник")
+    def uncover_source_collapse(self):
+        element = self.driver.find_element(By.XPATH, '//*[@data-test-id="source_collapse"]/*[@role="button"]')
+        element.click()
+
     @allure.step("Клик Права")
     def uncover_permissions_collapse(self):
         element = self.driver.find_element(By.XPATH, '//*[@data-test-id="permissions_collapse"]/*[@role="button"]')
+        element.click()
+
+    @allure.step("Клик Поля")
+    def uncover_fields_collapse(self):
+        element = self.driver.find_element(By.XPATH, '//*[@data-test-id="fields_collapse"]/*[@role="button"]')
         element.click()
 
     @allure.step("Клик Настройки таблицы")
@@ -53,6 +63,39 @@ class SettingsToolsPage:
     def uncover_form_constructor_collapse(self):
         element = self.driver.find_element(By.XPATH, '//*[@data-test-id="form_builder_collapse"]/*[@role="button"]')
         element.click()
+
+    @allure.step("Выбор таблицы в поле Источник")
+    def select_source_of_table(self, name_table):
+        element = self.driver.find_element(By.XPATH, '//*[@data-test-id="source_collapse"]//*[@class="ant-select-selection-search"]//input')
+        element.send_keys(name_table)
+        element.send_keys(Keys.ENTER)
+
+    def clear_source_of_table(self):
+        element = self.driver.find_element(By.XPATH, '//*[@data-test-id="source_collapse"]//*[@data-icon="close-circle"]')
+        element.click()
+
+
+    @allure.step("Получение источника таблицы")
+    def get_source_of_table(self):
+        try:
+            element = self.driver.find_element(By.XPATH, '//*[@data-test-id="source_collapse"]'
+                                        '//*[@class="ant-select-selection-search"]/following-sibling::*[@class="ant-select-selection-item"]')
+            return element.get_attribute("title")
+        except NoSuchElementException:
+            return None
+
+    @allure.step("Получение количества полей")
+    def get_count_fields(self):
+        element = self.driver.find_elements(By.XPATH, '//*[@data-test-id="fields_collapse"]//tbody/tr')
+        return len(element)
+
+    @allure.step("Получение иконки отсутствия полей")
+    def get_icon_empty_fields(self):
+        try:
+            if self.driver.find_elements(By.XPATH, '//*[@data-test-id="fields_collapse"]//tbody//*[@class="ant-empty-image"]'):
+                return True
+        except NoSuchElementException:
+            return False
 
     @allure.step("Клик Switch Добавить")
     def click_switch_add(self):

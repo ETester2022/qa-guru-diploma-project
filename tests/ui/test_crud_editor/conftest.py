@@ -54,7 +54,8 @@ def create_crud_with_settings_table(get_access_token_admin):
         "paginationRows": 10,
         "staticCreate": True,
         "staticUpdate": True,
-        "staticDelete": True
+        "staticDelete": True,
+        "source": "dflt.cities"
       }
     }
 
