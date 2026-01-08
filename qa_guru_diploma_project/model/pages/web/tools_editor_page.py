@@ -596,4 +596,92 @@ class SettingsToolsPage:
         total_elements = len(count_of_elements) - 1
         return total_elements
 
-        
+    @allure.step("Клик на кнопку изменить по имени поля")
+    def click_edit_by_name(self, field_name):
+
+        name_elements = self.driver.find_elements(By.CSS_SELECTOR, "*[data-row-key]")
+        for name_element in name_elements:
+            row_key = name_element.get_attribute("data-row-key")
+            parts = row_key.split(".")
+            last_part = parts[-1]
+            if last_part == field_name:
+                element = self.driver.find_element(By.XPATH, f'(//tr[@data-row-key="{row_key}"]//*[@type="button"])[2]')
+                self.driver.execute_script("arguments[0].click();", element)
+
+    @allure.step("Клик Switch enable field")
+    def click_switch_enable_field(self):
+        element = self.driver.find_element(By.XPATH,
+                                           '//*[@class="ant-modal-content"]//*[@role="switch"][1]')
+        element.click()
+
+    @allure.step("ввод данных в поле ярлык в модальном окне")
+    def filling_label_field_in_params(self, text_label):
+        element = self.driver.find_element(By.XPATH, '(//*[@class="ant-modal-content"]//input[@type="text"])[4]')
+        element.send_keys(text_label)
+
+    @allure.step("очистка данных в поле ярлык в модальном окне")
+    def clear_label_field_in_params(self):
+        element = self.driver.find_element(By.XPATH, '(//*[@class="ant-modal-content"]//input[@type="text"])[4]'
+                                                    '/..//*[@data-icon="close-circle"]')
+        element.click()
+
+
+    @allure.step("Клик Параметры в MW field")
+    def uncover_params_collapse_in_field(self):
+        element = self.driver.find_element(By.XPATH, '(//*[@class="ant-modal-content"]//*[@class="ant-collapse-item"])[1]')
+        element.click()
+
+    @allure.step("Клик Switch params RO")
+    def click_switch_params_read_only(self):
+        element = self.driver.find_element(By.XPATH, '(//*[@class="ant-modal-content"]'
+                                                    '//*[contains(@class, "collapse-item-active")]'
+                                                    '//*[@role="switch"])[2]')
+        element.click()
+
+    @allure.step("Клик по ОК MW fields")
+    def click_ok_mw_fields(self):
+        self.driver.find_element(By.XPATH, '//*[@class="ant-modal-content"]//*[@type="submit"]').click()
+
+    @allure.step("Получение текста ярлыка соответствующего поля в разделе Поля")
+    def get_text_label_in_fields(self, field_name):
+        name_elements = self.driver.find_elements(By.CSS_SELECTOR, "*[data-row-key]")
+        for name_element in name_elements:
+            row_key = name_element.get_attribute("data-row-key")
+            parts = row_key.split(".")
+            last_part = parts[-1]
+            if last_part == field_name:
+                txt_label = self.driver.find_element(By.XPATH, f'//tr[@data-row-key="{row_key}"]/td[2]').text
+
+                return txt_label
+
+    @allure.step("Получение текста зеленого атрибута")
+    def get_text_attribute_green(self, field_name):
+
+        name_elements = self.driver.find_elements(By.CSS_SELECTOR, "*[data-row-key]")
+        for name_element in name_elements:
+            row_key = name_element.get_attribute("data-row-key")
+            parts = row_key.split(".")
+            last_part = parts[-1]
+            try:
+                if last_part == field_name:
+                    text_attribute = self.driver.find_element(By.XPATH, f'//tr[@data-row-key="{row_key}"]'
+                                             '//span[contains(@class, "ant-tag ant-tag-green")]').text
+                    return text_attribute
+            except NoSuchElementException:
+                return None
+
+    @allure.step("Получение текста фиолетового атрибута ro")
+    def get_text_attribute_purple_read_only(self, field_name, read_only):
+
+        name_elements = self.driver.find_elements(By.CSS_SELECTOR, "*[data-row-key]")
+        for name_element in name_elements:
+            row_key = name_element.get_attribute("data-row-key")
+            parts = row_key.split(".")
+            last_part = parts[-1]
+            try:
+                if last_part == field_name:
+                    text_attribute = self.driver.find_element(By.XPATH, f'//tr[@data-row-key="{row_key}"]'
+                                             f'//span[contains(@class, "ant-tag ant-tag-purple") and text()="{read_only}"]').text
+                    return text_attribute
+            except NoSuchElementException:
+                return None

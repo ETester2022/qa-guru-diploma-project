@@ -89,7 +89,12 @@ def create_crud_with_fields(get_access_token_admin):
             {"fieldName": "dflt.cities.id",
             "enabled": True},
             {"fieldName": "dflt.cities.name",
-             "enabled": True},
+             "enabled": True,
+             "readOnly": True,
+             "label": {"ru": "ru label",
+                      "en": None,
+                      "de": None,
+                      "kk": None}},
             {"fieldName": "dflt.cities.population",
              "enabled": True},
         ]
