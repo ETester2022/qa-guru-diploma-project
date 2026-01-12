@@ -55,7 +55,13 @@ def create_crud_with_settings_table(get_access_token_admin):
         "staticCreate": True,
         "staticUpdate": True,
         "staticDelete": True,
-        "source": "dflt.cities"
+        "source": "dflt.cities",
+        "updater": {
+          "defaultValue": "5s",
+          "enabled": True,
+          "visible": True,
+          "useGlobalValue": True
+        } 
       }
     }
 
