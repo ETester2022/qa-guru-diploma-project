@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import Keys
 from selenium.webdriver import ActionChains
 import time
-
+import json
 
 class CrudViewerPage:
 
@@ -17,6 +17,9 @@ class CrudViewerPage:
     def __open_tool_viewer(self, name_tool):
         self.driver.get(f"https://stage.mesone.kz/viewers/tool/{name_tool}")
         self.driver.implicitly_wait(15)
+
+    def set_local_storage(self, key, value):
+        self.driver.execute_script("window.localStorage.setItem(arguments[0], arguments[1]);", key, json.dumps(value))
 
     @allure.step("Прямой переход в tools/viewer")
     def open_tools_viewer_admin(self, browser, refresh_token_admin, name_tool):
@@ -31,6 +34,43 @@ class CrudViewerPage:
             return element.is_enabled()
         except NoSuchElementException:
             return False
+
+    @allure.step("Ввод значения в поле Страница")
+    def input_value_page_pagination(self, value):
+        element = self.driver.find_element(By.XPATH, '//*[@aria-label="Страница"]')
+        element.send_keys(value)
+
+    @allure.step("Выбор колличества строк в CRUD Viewer")
+    def select_value_count_rows_pagination(self, value):
+        element = self.driver.find_element(By.XPATH, '//*[@aria-label="размер страницы"]/div[1]')
+        element.click()
+        element2 = self.driver.find_element(By.XPATH, f'//*[@id="rc_select_0_list_{value}"]')
+        element2.click()
+
+    @allure.step("Получение колличества страниц в pagination")
+    def count_btn_pages_in_pagination(self):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.presence_of_all_elements_located((By.XPATH, '//ul[contains(@class, "ant-pagination")]/li[@title]')))
+        elements = self.driver.find_elements(By.XPATH, '//ul[contains(@class, "ant-pagination")]/li[@title]')
+        return len(elements) - 2
+
+    @allure.step("Получение порядкового номера первой записи в таблице")
+    def get_ordinal_number_of_first_record_in_table(self):
+        element = self.driver.find_element(By.XPATH, '(//div[@class="tabulator-table"]//div[@tabulator-field="rownum"])[1]')
+        return int(element.text)    
+
+    @allure.step("Получение порядкового номера последней записи в таблице")
+    def get_ordinal_number_of_last_record_in_table(self):
+        element = self.driver.find_element(By.XPATH, '(//div[@class="tabulator-table"]//div[@tabulator-field="rownum"])[last()]')
+        return int(element.text)
+
+    @allure.step("Получение значения из localStorage по ключу")
+    def get_value_from_local_storage(self, key):
+        value = self.driver.execute_script(f"return JSON.parse(localStorage.getItem('{key}'))")
+        return value
+
+
+
 
     @allure.step("Получение колличества btn import")
     def get_count_btn_import(self):
@@ -110,11 +150,6 @@ class CrudViewerPage:
         element = self.driver.find_element(By.XPATH, '//*[@class="tabulator-frozen-rows-holder"]'
                                                      '//*[@tabulator-field="rownum"]')
         return element.is_enabled()
-
-
-
-
-
 
     @allure.step("Вызов table editor по тексту в соотвествии с action")
     def click_pkm_and_action_on_field(self, field_name, action):
